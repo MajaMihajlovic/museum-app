@@ -35,7 +35,7 @@ const MemoizedList = memo(
 const ListScreen = () => {
   const { push, goBack } = useNavigation();
   const target = useNavigationParam("target");
-  const { state, actions } = useExploreReducer(target.toLowerCase());
+  const { state, actions } = useExploreReducer(target?.toLowerCase());
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {

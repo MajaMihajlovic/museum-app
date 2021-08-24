@@ -1,13 +1,14 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import {
   Card,
-  Title,
-  Paragraph,
-  Subheading,
-  Caption
+  Caption,
 } from "react-native-paper";
 
 import FavoriteFab from "./FavoriteFab";
@@ -24,28 +25,32 @@ const listImage = Math.round(width);
 const gridImage = Math.round(width / GRID_COLUMNS - 4);
 
 export const FeedItem = memo(
-  ({ id, title, primaryimageurl, division, century, dated }) => {
+  ({ id, name, primaryimageurl, description, century, dated }) => {
     const { push } = useNavigation();
 
     return (
       <Card key={id} style={styles.root} elevation={0}>
-        <Card.Title title={title} subtitle={division} />
+        <Card.Title
+          subtitleNumberOfLines={3}
+          title={name}
+          subtitle={description}
+        />
         <TouchableOpacity
           testID="feed-item"
           onPress={() =>
             push("Details", {
               id,
-              title,
+              name,
               primaryimageurl,
-              division,
+              description,
               century,
-              dated
+              dated,
             })
           }
         >
           <Card.Cover
             source={{
-              uri: `${primaryimageurl}?height=${listImage}&width=${listImage}`
+              uri: `${primaryimageurl}?height=${listImage}&width=${listImage}`,
             }}
             style={styles.image}
           />
@@ -56,11 +61,11 @@ export const FeedItem = memo(
         <FavoriteFab
           record={{
             id,
-            title,
+            name,
             primaryimageurl,
-            division,
+            description,
             century,
-            dated
+            dated,
           }}
           style={styles.fab}
         />
@@ -71,11 +76,11 @@ export const FeedItem = memo(
 
 FeedItem.propTypes = {
   id: PropTypes.string,
-  title: PropTypes.string,
+  name: PropTypes.string,
   primaryimageurl: PropTypes.string,
-  division: PropTypes.string,
+  description: PropTypes.string,
   century: PropTypes.string,
-  dated: PropTypes.string
+  dated: PropTypes.string,
 };
 
 export const FeedItemGrid = memo(({ id, primaryimageurl, ...other }) => {
@@ -88,7 +93,7 @@ export const FeedItemGrid = memo(({ id, primaryimageurl, ...other }) => {
       >
         <Card.Cover
           source={{
-            uri: `${primaryimageurl}?height=${gridImage}&width=${gridImage}`
+            uri: `${primaryimageurl}?height=${gridImage}&width=${gridImage}`,
           }}
           style={styles.imageGrid}
         />
@@ -99,29 +104,29 @@ export const FeedItemGrid = memo(({ id, primaryimageurl, ...other }) => {
 
 FeedItemGrid.propTypes = {
   id: PropTypes.string,
-  primaryimageurl: PropTypes.string
+  primaryimageurl: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: 24
+    marginTop: 24,
   },
   grid: {
     // flex: 1,
-    padding: 2
+    padding: 2,
   },
   image: {
     width: width,
-    height: width
+    height: width,
   },
   imageGrid: {
     width: width / GRID_COLUMNS - 4,
-    height: width / GRID_COLUMNS - 4
+    height: width / GRID_COLUMNS - 4,
   },
   fab: {
     position: "absolute",
     margin: 16,
     right: 0,
-    bottom: 0
-  }
+    bottom: 0,
+  },
 });

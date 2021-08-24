@@ -1,6 +1,6 @@
 import useCancelableThunkReducer from "use-cancelable-thunk-reducer";
 
-import { loadListOf, search, resetSearch } from "../actions/explore";
+import { loadListOf, search, resetSearch, loadCollections } from "../actions/explore";
 import reducer, { initialState } from "../reducers/explore";
 
 export default function useExploreReducer(target) {
@@ -9,6 +9,8 @@ export default function useExploreReducer(target) {
   const showingAllRecords = state.totalRecords === state.records.length;
 
   const loadList = () => dispatch(loadListOf(target));
+
+  const onLoad = () => dispatch(loadCollections());
 
   const onEndReached = () =>
     state.next && dispatch(loadListOf(target, state.next));
@@ -26,6 +28,7 @@ export default function useExploreReducer(target) {
     state,
     actions: {
       loadList,
+      onLoad,
       onEndReached,
       onSubmitSearch,
       onEndReachedSearch

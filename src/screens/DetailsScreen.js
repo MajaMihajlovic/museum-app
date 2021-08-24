@@ -21,7 +21,7 @@ import Divider from "../components/Divider";
 const DetailsScreen = () => {
   const id = useNavigationParam("id");
   const title = useNavigationParam("title");
-  const division = useNavigationParam("division");
+  const description = useNavigationParam("description");
   const century = useNavigationParam("century");
   const primaryimageurl = useNavigationParam("primaryimageurl");
 
@@ -40,7 +40,7 @@ const DetailsScreen = () => {
           testID="go-back-details-screen"
           onPress={() => goBack()}
         />
-        <Appbar.Content title={title} subtitle={division} />
+        <Appbar.Content title={title} subtitle={description} />
       </Appbar.Header>
       <ScrollView style={styles.content}>
         {state.loading ? (
@@ -60,7 +60,7 @@ const DetailsScreen = () => {
                   id,
                   title,
                   primaryimageurl,
-                  division,
+                  description,
                   century
                 }}
                 style={styles.fab}

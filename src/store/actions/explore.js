@@ -1,4 +1,4 @@
-import { fetchListOf, fetchFeed } from "../../api/api";
+import { fetchListOf, fetchFeed, fetchCollections } from "../../api/api";
 import Fuse from "fuse.js";
 
 // action types
@@ -12,6 +12,10 @@ export const FILTER_RECORDS__SENT = "FILTER_RECORDS__SENT";
 export const FILTER_RECORDS__FULFILLED = "FILTER_RECORDS__FULFILLED";
 export const FILTER_RECORDS__REJECTED = "FILTER_RECORDS__REJECTED";
 export const FILTER_RECORDS__RESET = "FILTER_RECORDS__RESET";
+
+export const FETCH_COLLECTIONS__SENT = "FETCH_COLLECTIONS__SENT";
+export const FETCH_COLLECTIONS__FULFILLED = "FETCH_COLLECTIONS__FULFILLED";
+export const FETCH_COLLECTIONS__REJECTED = "FETCH_COLLECTIONS__REJECTED";
 
 // action creators
 
@@ -103,3 +107,18 @@ export const search = (
 };
 
 export const resetSearch = () => ({ type: FILTER_RECORDS__RESET });
+
+export const loadCollections = (extra, next) => async dispatch => {
+  dispatch({ type: FETCH_COLLECTIONS__SENT });
+  try {
+    const results = await fetchCollections();
+    dispatch({
+      type: FETCH_COLLECTIONS__FULFILLED,
+      payload: {
+        ...results
+      }
+    });
+  } catch (err) {
+    dispatch({ type: FETCH_COLLECTIONS__REJECTED, payload: err.message });
+  }
+};

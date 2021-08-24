@@ -1,37 +1,25 @@
-// get a new API key: https://github.com/harvardartmuseums/api-docs#access-to-the-api
-//import { API_KEY } from '@env'
-const API_KEY="test"
-
-export const processFeed = results => {
+export const processFeed = (results) => {
   const processed = {
     info: {
-      next: results.info.next
+      next: results,
     },
-    records: results.records.map(r => ({
+    records: results.map((r) => ({
       ...r,
-      id: r.objectnumber
-    }))
+      id: r["o:id"].toString(),
+      name: r["dcterms:title"][0]["@value"],
+      description: r["dcterms:description"][0]["@value"],
+    })),
   };
   return processed;
 };
 
 export const fetchFeed = async (
   url = null,
-  sort = "totalpageviews",
-  sortorder = "desc",
   extra = ""
 ) => {
   if (!url) {
-    const fields = "objectnumber,dated,century,division,primaryimageurl,title";
-    url =
-      `https://api.harvardartmuseums.org/object?apikey=${API_KEY}` +
-      `&fields=${fields}` +
-      `&sort=${sort}` +
-      `&page=1` +
-      `&size=44` +
-      `&hasimage=1` +
-      `&sortorder=${sortorder}` +
-      extra;
+    url = `https://muzej.info/api/items`;
+    extra;
   }
 
   const response = await fetch(url);
@@ -43,35 +31,29 @@ export const fetchFeed = async (
   throw new Error(errMessage);
 };
 
-export const processRecordImages = images =>
-  images.map(image => image.baseimageurl);
-export const processRecordPeople = people =>
+export const processRecordImages = (images) =>
+  images.map((image) => image.baseimageurl);
+export const processRecordPeople = (people) =>
   people
-    ? people.map(person => ({
+    ? people.map((person) => ({
         name: person.name,
         role: person.role,
-        personid: person.personid
+        personid: person.personid,
       }))
     : null;
 
-export const processRecord = results => {
+export const processRecord = (results) => {
   const record = results.records[0];
   const processed = {
     ...record,
     images: record.images ? processRecordImages(record.images) : [],
-    people: record.people ? processRecordPeople(record.people) : []
+    people: record.people ? processRecordPeople(record.people) : [],
   };
   return processed;
 };
 
-export const fetchRecord = async id => {
-  const fields =
-    "people,technique,classification,labeltext,totalpageviews," +
-    "url,culture,accessionyear,accessionmethod,images,dated,century";
-  const url =
-    `https://api.harvardartmuseums.org/object?apikey=${API_KEY}` +
-    `&objectnumber=${id}` +
-    `&fields=${fields}`;
+export const fetchRecord = async (id) => {
+  const url = `https://muzej.info/api/items/${id}`;
   const response = await fetch(url);
   if (response.ok) {
     const results = await response.json();
@@ -81,14 +63,31 @@ export const fetchRecord = async id => {
   throw new Error(errMessage);
 };
 
-export const fetchPersonRecords = async personid => {
+export const fetchCollections = async (url = null) => {
+  if (!url) {
+    url = `https://muzej.info/api/item_sets`;
+  }
+
+  const response = await fetch(url);
+  if (response.ok) {
+    const results = await response.json();
+    return {
+      records: results.map((r) => ({
+        // ...r,
+        id: r["o:id"].toString(),
+        name: r["dcterms:title"][0]["@value"],
+      })),
+    };
+  }
+  const errMessage = await response.text();
+  throw new Error(errMessage);
+};
+
+export const fetchPersonRecords = async (personid) => {
   return fetchFeed(null, "totalpageviews", "desc", `&person=${personid}`);
 };
 
-export const fetchPerson = async id => {
-  const fields =
-    "birthplace,culture,deathplace,displaydate," +
-    "displayname,gender,url,wikipedia_id";
+export const fetchPerson = async (id) => {
   const url =
     `https://api.harvardartmuseums.org/person?apikey=${API_KEY}` +
     `&q=personid:${id}` +
@@ -107,12 +106,11 @@ export const processList = (results, target) => {
     const field = target === "person" ? "displayname" : "title";
     const id = target === "person" ? "id" : "objectnumber";
     return {
-      info: results.info,
-      records: results.records.map(r => ({
+      records: results.map((r) => ({
         id: r[id],
         objectcount: r.objectcount || null,
-        name: r[field]
-      }))
+        name: r.name,
+      })),
     };
   } else {
     return results;

@@ -8,8 +8,6 @@ const persistConfig = {
   key: "root",
   storage: AsyncStorage,
   whitelist: ["favorites"]
-  // whitelist: ["inexistent"],
-  // blacklist: ["favorites", "details", "feed"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -25,7 +25,7 @@ const ListItem = memo(({ name, id, objectcount, theme, target }) => {
                   push("Feed", {
                     title: name,
                     subtitle: theme || "",
-                    filter: `&${target.toLowerCase()}=${id}`
+                    filter: `&${target?.toLowerCase()}=${id}`
                   })
           }
         >

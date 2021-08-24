@@ -7,7 +7,10 @@ import {
   FILTER_RECORDS__SENT,
   FILTER_RECORDS__FULFILLED,
   FILTER_RECORDS__REJECTED,
-  FILTER_RECORDS__RESET
+  FILTER_RECORDS__RESET,
+  FETCH_COLLECTIONS__SENT,
+  FETCH_COLLECTIONS__FULFILLED,
+  FETCH_COLLECTIONS__REJECTED
 } from "../actions/explore";
 
 export const initialState = {
@@ -21,7 +24,9 @@ export const initialState = {
   target: "",
   search: "",
   filteredRecords: [],
-  nextSearchUrl: null
+  nextSearchUrl: null,
+  collections: [],
+  loadingCollections: false
 };
 
 const exploreReducer = (state = initialState, action) => {
@@ -48,6 +53,25 @@ const exploreReducer = (state = initialState, action) => {
         error: action.payload,
         loading: false
       };
+
+      case FETCH_COLLECTIONS__SENT:
+      return { ...state, loadingCollections: true };
+
+    case FETCH_COLLECTIONS__FULFILLED:
+     //const {  records } = action.payload;
+      return {
+        ...state,
+        collections: action.payload.records,
+        loadingCollections:false
+      };
+
+    case FETCH_COLLECTIONS__REJECTED:
+      return {
+        ...state,
+        error: action.payload,
+        loadingCollections: false
+      };
+
 
     case FILTER_RECORDS__SENT:
       return { ...state, error: null, loading: true };
