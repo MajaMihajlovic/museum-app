@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import Constants from "expo-constants";
+import { StyleSheet, Dimensions } from "react-native";
+import { TabView, TabBar } from "react-native-tab-view";
 
 import TabBarIcon from "../components/TabBarIcon";
 import FeedScreen from "../screens/FeedScreen";
 import ExploreScreen from "../screens/ExploreScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import AboutScreen from "../screens/AboutScreen";
-import DetailsScreen from "../screens/DetailsScreen";
 import theme from "../util/theme";
 
 const renderTabBar = props => (
@@ -42,7 +40,7 @@ const MainTabNavigator = props => {
       { key: "feed", icon: "ios-home" },
       { key: "explore", icon: "ios-search" },
       { key: "favorites", icon: "ios-heart" },
-      { key: "about", icon: "ios-more" }
+      { key: "about", icon: "ellipsis-horizontal-outline" }
     ]
   });
 

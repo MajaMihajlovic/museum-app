@@ -63,7 +63,7 @@ const FeedScreen = () => {
 
   const EmptyListComponent = useCallback(
     () => (
-      <EmptyList notShow={state.loading || state.refreshing || state.error} />
+      <EmptyList notShow={state.loading || state.refreshing || state.error != null} />
     ),
     [state.loading, state.refreshing, state.error]
   );

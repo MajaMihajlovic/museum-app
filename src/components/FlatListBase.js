@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { FlatList, Dimensions } from "react-native";
-import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
 
 import {
@@ -59,7 +58,7 @@ const FlatListBase = memo(
         numColumns={GRID_COLUMNS}
         renderItem={renderItemGrid}
         keyExtractor={item => item.id}
-        onViewableItemsChanged={setVisibleIndex}
+        onViewableItemsChanged={viewabilityConfig}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayoutGrid}
         maxToRenderPerBatch={10}
@@ -74,7 +73,7 @@ const FlatListBase = memo(
         numColumns={1}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        onViewableItemsChanged={setVisibleIndex}
+        onViewableItemsChanged={viewabilityConfig}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayout}
         maxToRenderPerBatch={5}

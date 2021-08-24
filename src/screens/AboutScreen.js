@@ -9,37 +9,27 @@ const AboutScreen = () => {
   return (
     <View style={styles.root}>
       <Appbar.Header>
-        <Appbar.Content title="About" />
+        <Appbar.Content title="O nama" />
       </Appbar.Header>
       <View style={styles.content}>
         <View>
-          <Headline style={styles.centeredText}>Built with the</Headline>
-          <Link url="https://github.com/harvardartmuseums/api-docs">
-            Harvard Art Museums API
+          <Headline style={styles.centeredText}>Aplikacija omogućava pregled dijela kulturnog naslijeđa, koji je dostupan i na web stranici </Headline>
+          <Link url="https://muzej.info/s/muzej-rs/page/welcome">
+            Muzeja Republike Srpske
           </Link>
         </View>
         <Divider style={styles.divider} />
         <View style={styles.row}>
-          <Headline style={styles.centeredText}>Source code on </Headline>
-          <Link url="https://github.com/PedroBern/react-native-art-museums-app">
+          <Headline style={styles.centeredText}>Izvorni kod </Headline>
+          <Link url="https://github.com/MajaMihajlovic/museum-app">
             GitHub
           </Link>
         </View>
         <Divider style={styles.divider} />
         <View style={styles.row}>
-          <Paragraph style={styles.centeredText}></Paragraph>
-          <Link
-            url="https://github.com/PedroBern/react-native-art-museums-app/blob/master/privacy_policy.md"
-            Component={Paragraph}
-          >
-            Privacy policy
-          </Link>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.row}>
-          <Paragraph style={styles.centeredText}>by </Paragraph>
-          <Link url="https://github.com/pedrobern" Component={Paragraph}>
-            @pedrobern
+          <Paragraph style={styles.centeredText}> Autor </Paragraph>
+          <Link url="https://github.com/MajaMihajlovic" Component={Paragraph}>
+            Maja Mihajlovic
           </Link>
         </View>
       </View>
