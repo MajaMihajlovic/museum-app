@@ -39,7 +39,7 @@ const exploreReducer = (state = initialState, action) => {
       return {
         ...state,
         records: [...state.records, ...records],
-        next: info.next,
+        page: info.page,
         totalRecords: info.totalrecords,
         loading: false,
         error: null,
@@ -90,7 +90,7 @@ const exploreReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         filteredRecords: [...state.filteredRecords, ...action.payload.records],
-        nextSearchUrl: action.payload.info.next
+        nextSearchUrl: action.payload.info.page
       };
 
     case FILTER_RECORDS__RESET:

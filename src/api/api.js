@@ -1,31 +1,29 @@
-export const processFeed = (results) => {
+import parseOmekaApi from "../util/parser";
+
+export const processFeed = (results, page) => {
   const processed = {
-    info: {
-      next: results,
-    },
-    records: results.map((r) => ({
-      ...r,
-      id: r["o:id"].toString(),
-      name: r["dcterms:title"][0]["@value"],
-      description: r["dcterms:description"][0]["@value"],
-    })),
+    page,
+    records: results
+      .filter((e) => e != undefined)
+      .map((r) => ({
+        ...r,
+        id: r["o:id"].toString(),
+        name: r["dcterms:title"][0]["@value"],
+        description: r["dcterms:description"][0]["@value"],
+      })),
   };
   return processed;
 };
 
-export const fetchFeed = async (
-  url = null,
-  extra = ""
-) => {
+export const fetchFeed = async (url = null, page = 1, extra = "") => {
   if (!url) {
-    url = `https://muzej.info/api/items`;
-    extra;
+    url = `https://muzej.info/api/items?page=${page}&per_page=20`;
   }
 
   const response = await fetch(url);
   if (response.ok) {
     const results = await response.json();
-    return processFeed(results);
+    return processFeed(results, page);
   }
   const errMessage = await response.text();
   throw new Error(errMessage);
@@ -33,21 +31,13 @@ export const fetchFeed = async (
 
 export const processRecordImages = (images) =>
   images.map((image) => image.baseimageurl);
-export const processRecordPeople = (people) =>
-  people
-    ? people.map((person) => ({
-        name: person.name,
-        role: person.role,
-        personid: person.personid,
-      }))
-    : null;
 
-export const processRecord = (results) => {
-  const record = results.records[0];
+export const processRecord = (record) => {
+  const properties = parseOmekaApi(record);
   const processed = {
     ...record,
-    images: record.images ? processRecordImages(record.images) : [],
-    people: record.people ? processRecordPeople(record.people) : [],
+    images: record.images ? processRecordImages(record) : [],
+    properties,
   };
   return processed;
 };
@@ -83,39 +73,6 @@ export const fetchCollections = async (url = null) => {
   throw new Error(errMessage);
 };
 
-export const fetchPersonRecords = async (personid) => {
-  return fetchFeed(null, "totalpageviews", "desc", `&person=${personid}`);
-};
-
-export const fetchPerson = async (id) => {
-  const url =
-    `https://api.harvardartmuseums.org/person?apikey=${API_KEY}` +
-    `&q=personid:${id}` +
-    `&fields=${fields}`;
-  const response = await fetch(url);
-  if (response.ok) {
-    const results = await response.json();
-    return results;
-  }
-  const errMessage = await response.text();
-  throw new Error(errMessage);
-};
-
-export const processList = (results, target) => {
-  if (target === "person" || target === "object") {
-    const field = target === "person" ? "displayname" : "title";
-    const id = target === "person" ? "id" : "objectnumber";
-    return {
-      records: results.map((r) => ({
-        id: r[id],
-        objectcount: r.objectcount || null,
-        name: r.name,
-      })),
-    };
-  } else {
-    return results;
-  }
-};
 
 export const fetchListOf = async (
   url = null,
@@ -130,10 +87,6 @@ export const fetchListOf = async (
     const sortorder = desc ? "desc" : "asc";
 
     switch (target) {
-      case "person":
-        sort = "displayname";
-        fields = "id,objectcount,displayname";
-        break;
       case "object":
         sort = "title";
         fields = "objectnumber,title";
@@ -173,7 +126,7 @@ export const fetchListOf = async (
   const response = await fetch(url);
   if (response.ok) {
     const results = await response.json();
-    return processList(results, target);
+    return results;
   }
   const errMessage = await response.text();
   throw new Error(errMessage);

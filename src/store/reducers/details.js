@@ -2,22 +2,16 @@ import {
   FETCH_RECORD__SENT,
   FETCH_RECORD__FULFILLED,
   FETCH_RECORD__REJECTED,
-  RESET_DETAILS
+  RESET_DETAILS,
 } from "../actions/details";
 
 export const detailsInitialState = {
   loading: true,
   record: {
-    accessionmethod: "",
-    accessionyear: null,
-    classification: "",
-    culture: "",
     images: [],
-    people: [],
-    technique: "",
-    url: ""
+    url: "",
   },
-  error: null
+  error: null,
 };
 
 const detailsReducer = (state = detailsInitialState, action) => {
@@ -30,19 +24,19 @@ const detailsReducer = (state = detailsInitialState, action) => {
         ...state,
         record: action.payload,
         loading: false,
-        error: null
+        error: null,
       };
 
     case FETCH_RECORD__REJECTED:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
       };
 
     case RESET_DETAILS:
       return {
-        ...detailsInitialState
+        ...detailsInitialState,
       };
 
     default:

@@ -17,15 +17,13 @@ const ListItem = memo(({ name, id, objectcount, theme, target }) => {
           testID="list-item"
           key={id}
           onPress={
-            target === "person"
-              ? () => push("Person", { personid: id, name, role: "" })
-              : target === "object"
+            target === "object"
               ? () => push("Details", { title: name, id })
               : () =>
                   push("Feed", {
                     title: name,
                     subtitle: theme || "",
-                    filter: `&${target?.toLowerCase()}=${id}`
+                    filter: `&${target?.toLowerCase()}=${id}`,
                   })
           }
         >
@@ -48,7 +46,7 @@ ListItem.propTypes = {
   id: PropTypes.number.isRequired,
   objectcount: PropTypes.number,
   theme: PropTypes.string,
-  target: PropTypes.string.isRequired
+  target: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -58,14 +56,14 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     justifyContent: "flex-start",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   name: {
-    flex: 1
+    flex: 1,
   },
   count: {
-    padding: 8
-  }
+    padding: 8,
+  },
 });
 
 export default ListItem;

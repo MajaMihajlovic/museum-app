@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   grid: {
-    // flex: 1,
     padding: 2,
   },
   image: {

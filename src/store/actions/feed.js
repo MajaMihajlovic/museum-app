@@ -12,10 +12,10 @@ export const SORT_FEED = "SORT_FEED";
 
 // action creators
 
-export const refreshFeed = (extra, sort, sortOrder) => async dispatch => {
+export const refreshFeed = (extra, sort, sortOrder, page) => async dispatch => {
   dispatch({ type: REFRESH_FEED__SENT });
   try {
-    const results = await fetchFeed(null, sort, sortOrder, extra);
+    const results = await fetchFeed(null, page, sort, sortOrder, extra);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {
@@ -27,10 +27,10 @@ export const refreshFeed = (extra, sort, sortOrder) => async dispatch => {
   }
 };
 
-export const sortFeed = (sort, sortOrder, extra = "") => async dispatch => {
+export const sortFeed = (sort, sortOrder, extra = "", page) => async dispatch => {
   dispatch({ type: SORT_FEED, payload: { sort, sortOrder } });
   try {
-    const results = await fetchFeed(null, sort, sortOrder, extra);
+    const results = await fetchFeed(null, page, sort, sortOrder, extra);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {
@@ -49,10 +49,11 @@ export const setVisibleIndex = index => ({
   payload: index
 });
 
-export const loadFeed = (extra, next) => async dispatch => {
+export const loadFeed = (extra, page) => async dispatch => {
   dispatch({ type: FETCH_FEED__SENT });
+ 
   try {
-    const results = next ? await fetchFeed(next) : await fetchFeed(null, "totalpageviews", "desc", extra);
+    const results = page ? await fetchFeed(null, page) : await fetchFeed(null, 1, "desc", extra);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {

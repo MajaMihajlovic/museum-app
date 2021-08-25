@@ -10,14 +10,14 @@ import {
 
 export const feedInitialState = {
   loading: true,
-  info: {},
   records: [],
   error: null,
   grid: false,
   visibleIndex: 0,
   refreshing: false,
   sort: "totalpageviews",
-  sortOrder: "desc"
+  sortOrder: "desc",
+  page: 1,
 };
 
 const feedReducer = (state = feedInitialState, action) => {
@@ -26,13 +26,13 @@ const feedReducer = (state = feedInitialState, action) => {
       return { ...state, loading: true };
 
     case FETCH_FEED__FULFILLED:
-      const { info, records } = action.payload;
+      const { page, records } = action.payload;
       const toAdd = records.filter(
         r => !state.records.find(s => s.id === r.id)
       );
       return {
         ...state,
-        info,
+        page,
         records: [...state.records, ...toAdd],
         loading: false,
         refreshing: false,
@@ -51,7 +51,6 @@ const feedReducer = (state = feedInitialState, action) => {
       return {
         ...state,
         records: [],
-        info: {},
         loading: true,
         visibleIndex: 0,
         refreshing: true

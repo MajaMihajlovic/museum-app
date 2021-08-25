@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, StyleSheet, FlatList, Text } from "react-native";
-import { connect } from "react-redux";
-import { Appbar, Paragraph, ProgressBar } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { Appbar } from "react-native-paper";
 import { useNavigationParam, useNavigation } from "react-navigation-hooks";
 
 import useFeedReducer from "../store/hooks/feed";
@@ -11,7 +10,7 @@ import ListFooter from "../components/ListFooter";
 import EmptyList from "../components/EmptyList";
 
 const FeedScreen = () => {
-  const title = useNavigationParam("title") || "Feed";
+  const title = useNavigationParam("title") || "Katalog";
   const subtitle = useNavigationParam("subtitle");
   const filter = useNavigationParam("filter");
   const { goBack } = useNavigation();
@@ -33,20 +32,20 @@ const FeedScreen = () => {
     () => [
       {
         title: "Recent page views",
-        onPress: () => actions.sortFeed("dateoflastpageview", "desc", filter)
+        onPress: () => actions.sortFeed("dateoflastpageview", "desc", filter),
       },
       {
         title: "Older page views",
-        onPress: () => actions.sortFeed("dateoflastpageview", "asc", filter)
+        onPress: () => actions.sortFeed("dateoflastpageview", "asc", filter),
       },
       {
         title: "More total views",
-        onPress: () => actions.sortFeed("totalpageviews", "desc", filter)
+        onPress: () => actions.sortFeed("totalpageviews", "desc", filter),
       },
       {
         title: "Less total views",
-        onPress: () => actions.sortFeed("totalpageviews", "asc", filter)
-      }
+        onPress: () => actions.sortFeed("totalpageviews", "asc", filter),
+      },
     ],
     [actions.sortFeed]
   )();
@@ -63,7 +62,9 @@ const FeedScreen = () => {
 
   const EmptyListComponent = useCallback(
     () => (
-      <EmptyList notShow={state.loading || state.refreshing || state.error != null} />
+      <EmptyList
+        notShow={state.loading || state.refreshing || state.error != null}
+      />
     ),
     [state.loading, state.refreshing, state.error]
   );
@@ -104,8 +105,8 @@ const FeedScreen = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#FFF"
-  }
+    backgroundColor: "#FFF",
+  },
 });
 
 export default FeedScreen;

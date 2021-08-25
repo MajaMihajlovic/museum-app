@@ -9,7 +9,7 @@ const SearchBarComponent = ({ dismiss, onSubmit, ...rest }) => {
     <Searchbar
       testID="search-bar"
       platform="android"
-      placeholder="Search..."
+      placeholder="Pretraži..."
       onChangeText={value => setSearch(value)}
       value={search}
       icon="arrow-left"

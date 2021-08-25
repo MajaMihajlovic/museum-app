@@ -17,7 +17,7 @@ const ExploreScreen = () => {
   return (
     <View style={styles.root}>
       <Appbar.Header>
-        <Appbar.Content title="Explore" />
+        <Appbar.Content title="Kolekcije" />
       </Appbar.Header>
       <View style={styles.content}>
         <ScrollView style={styles.grow}>

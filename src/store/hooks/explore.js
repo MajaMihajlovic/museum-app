@@ -13,7 +13,7 @@ export default function useExploreReducer(target) {
   const onLoad = () => dispatch(loadCollections());
 
   const onEndReached = () =>
-    state.next && dispatch(loadListOf(target, state.next));
+    state.page && dispatch(loadListOf(target, state.page));
 
   const onSubmitSearch = text => {
     dispatch(resetSearch());

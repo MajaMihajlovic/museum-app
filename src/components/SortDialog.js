@@ -35,8 +35,8 @@ SortDialog.defaultProps = {
   onDismiss: () => {},
   visible: false,
   buttons: [
-    { title: "Title (A-Z)", onPress: () => {} },
-    { title: "Title (Z-A)", onPress: () => {} },
+    { title: "Naslov (A-Z)", onPress: () => {} },
+    { title: "Naslov (Z-A)", onPress: () => {} },
     { title: "Recent page views", onPress: () => {} },
     { title: "Older page views", onPress: () => {} },
     { title: "More total views", onPress: () => {} },

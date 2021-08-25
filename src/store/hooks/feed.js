@@ -29,7 +29,7 @@ export default function useFeedReducer(filter) {
     feedInitialState
   );
 
-  const _loadFeed = useCallback(next => dispatch(loadFeed(filter, next)), [
+  const _loadFeed = useCallback(page => dispatch(loadFeed(filter, page)), [
     filter
   ]);
   const _refreshFeed = useCallback(
@@ -47,8 +47,8 @@ export default function useFeedReducer(filter) {
     []
   );
   const _onEndReached = useCallback(
-    () => state.info.next && _loadFeed(state.info.next),
-    [state.info.next]
+    () => state.page && _loadFeed(state.page++),
+    [state.page]
   );
 
   return {
