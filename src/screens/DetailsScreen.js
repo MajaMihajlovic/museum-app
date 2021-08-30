@@ -21,7 +21,7 @@ const DetailsScreen = () => {
   const id = useNavigationParam("id");
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
-  const primaryimageurl = useNavigationParam("primaryimageurl");
+  const media = useNavigationParam("primaryimageurl");
 
   const { goBack, push } = useNavigation();
 
@@ -48,16 +48,16 @@ const DetailsScreen = () => {
         ) : (
           <React.Fragment>
             <View style={styles.image}>
-              <Swiper>
-                {state.record.images.map((uri) => (
+              {/* <Swiper>
+                {state.record.media.map((uri) => (
                   <Image key={uri} source={{ uri }} style={styles.image} />
                 ))}
-              </Swiper>
+              </Swiper> */}
               <FavoriteFab
                 record={{
                   id,
                   title,
-                  primaryimageurl,
+                  media,
                   description,
                 }}
                 style={styles.fab}

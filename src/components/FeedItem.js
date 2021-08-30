@@ -25,7 +25,7 @@ const listImage = Math.round(width);
 const gridImage = Math.round(width / GRID_COLUMNS - 4);
 
 export const FeedItem = memo(
-  ({ id, name, primaryimageurl, description, century, dated }) => {
+  ({ id, name, media, description, century, dated }) => {
     const { push } = useNavigation();
 
     return (
@@ -41,7 +41,7 @@ export const FeedItem = memo(
             push("Details", {
               id,
               name,
-              primaryimageurl,
+              media,
               description,
               century,
               dated,
@@ -50,8 +50,9 @@ export const FeedItem = memo(
         >
           <Card.Cover
             source={{
-              uri: `${primaryimageurl}?height=${listImage}&width=${listImage}`,
+              uri: `${media?.thumbnailUrl}?height=${listImage}&width=${listImage}`,
             }}
+            resizeMode="contain"
             style={styles.image}
           />
         </TouchableOpacity>
@@ -62,7 +63,7 @@ export const FeedItem = memo(
           record={{
             id,
             name,
-            primaryimageurl,
+            media,
             description,
             century,
             dated,
@@ -77,24 +78,25 @@ export const FeedItem = memo(
 FeedItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  primaryimageurl: PropTypes.string,
+  media: PropTypes.object,
   description: PropTypes.string,
   century: PropTypes.string,
   dated: PropTypes.string,
 };
 
-export const FeedItemGrid = memo(({ id, primaryimageurl, ...other }) => {
+export const FeedItemGrid = memo(({ id, media, ...other }) => {
   const { push } = useNavigation();
   return (
     <Card key={id} style={styles.grid} elevation={0}>
       <TouchableOpacity
         testID="feed-item-grid"
-        onPress={() => push("Details", { id, primaryimageurl, ...other })}
+        onPress={() => push("Details", { id, media, ...other })}
       >
         <Card.Cover
           source={{
-            uri: `${primaryimageurl}?height=${gridImage}&width=${gridImage}`,
+            uri: `${media?.thumbnailUrl}?height=${gridImage}&width=${gridImage}`,
           }}
+          resizeMode="contain"
           style={styles.imageGrid}
         />
       </TouchableOpacity>
@@ -104,7 +106,7 @@ export const FeedItemGrid = memo(({ id, primaryimageurl, ...other }) => {
 
 FeedItemGrid.propTypes = {
   id: PropTypes.string,
-  primaryimageurl: PropTypes.string,
+  media: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
