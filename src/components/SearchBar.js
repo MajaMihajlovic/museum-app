@@ -10,7 +10,7 @@ const SearchBarComponent = ({ dismiss, onSubmit, ...rest }) => {
       testID="search-bar"
       platform="android"
       placeholder="Pretraži..."
-      onChangeText={value => setSearch(value)}
+      onChangeText={(value) => setSearch(value)}
       value={search}
       icon="arrow-left"
       onIconPress={dismiss}
@@ -28,7 +28,7 @@ const SearchBarComponent = ({ dismiss, onSubmit, ...rest }) => {
 
 SearchBarComponent.propTypes = {
   dismiss: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchBarComponent;

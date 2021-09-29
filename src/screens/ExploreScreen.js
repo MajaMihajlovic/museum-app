@@ -7,7 +7,6 @@ import useExploreReducer from "../store/hooks/explore";
 
 const ExploreScreen = () => {
   const { push } = useNavigation();
-  const target = useNavigationParam("target");
   const { state, actions } = useExploreReducer("null");
 
   useEffect(() => {
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
   surface: {
     margin: 8,
     borderRadius: 16,
-    // backgroundColor: "#fafafa"
   },
 });
 

@@ -24,10 +24,6 @@ const FeedScreen = () => {
   const [visible, setVisible] = useState(false);
   const onDismiss = () => setVisible(false);
 
-  // const setVisibleIndex = useCallback(() => actions.setVisibleIndex(), [
-  //   actions.setVisibleIndex
-  // ]);
-
   const buttons = useCallback(
     () => [
       {

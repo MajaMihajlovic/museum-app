@@ -1,15 +1,8 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import {
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
-import {
-  Card,
-  Caption,
-} from "react-native-paper";
+import { Card, Caption } from "react-native-paper";
 
 import FavoriteFab from "./FavoriteFab";
 

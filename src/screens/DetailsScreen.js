@@ -6,10 +6,8 @@ import {
   Text,
   Dimensions,
   Image,
-  TouchableOpacity,
 } from "react-native";
 import { Appbar, Paragraph, Title } from "react-native-paper";
-import Swiper from "react-native-swiper";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 
 import useDetailsReducer from "../store/hooks/details";
@@ -21,12 +19,11 @@ const DetailsScreen = () => {
   const id = useNavigationParam("id");
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
-  const media = useNavigationParam("primaryimageurl");
+  const media = useNavigationParam("media");
 
   const { goBack, push } = useNavigation();
 
   const { state, actions } = useDetailsReducer(id);
-
   useEffect(() => {
     actions.loadRecord();
   }, []);
@@ -47,12 +44,15 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            <View style={styles.image}>
-              {/* <Swiper>
-                {state.record.media.map((uri) => (
-                  <Image key={uri} source={{ uri }} style={styles.image} />
-                ))}
-              </Swiper> */}
+            <View style={styles.image} id={id}>
+              {/* <Swiper> */}
+
+              <Image
+                key={media}
+                source={{ uri: media?.thumbnailUrl }}
+                style={styles.image}
+              />
+              {/* </Swiper> */}
               <FavoriteFab
                 record={{
                   id,
@@ -95,12 +95,12 @@ const DetailsScreen = () => {
               <Divider /> */}
 
               {state.record.properties
-                ? state.record.properties.map((prop) => (
-                    <>
+                ? state.record.properties.map((prop, i) => (
+                    <View key={i}>
                       <Title>{prop.title}</Title>
                       <Paragraph>{prop.value || <Text>-</Text>}</Paragraph>
                       <Divider />
-                    </>
+                    </View>
                   ))
                 : null}
             </View>

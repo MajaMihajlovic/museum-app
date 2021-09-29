@@ -1,5 +1,4 @@
 import { fetchRecord } from "../../api/api";
-// import { delayMock, fetchRecordMock } from "../../api/mock";
 
 // action types
 

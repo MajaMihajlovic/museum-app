@@ -13,7 +13,6 @@ function urlEncode(params) {
 export function resolveAPIUrl(path, query) {
   let qs = "";
   if (typeof query == "object" && query) qs = "?" + urlEncode(query);
-  console.log(apiBaseUrl + path + qs);
   return apiBaseUrl + path + qs;
 }
 

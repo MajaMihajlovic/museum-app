@@ -18,24 +18,24 @@ const ListFooter = memo(({ loading, error }) => (
 
 ListFooter.defaultProps = {
   loading: false,
-  error: null
+  error: null,
 };
 
 ListFooter.propTypes = {
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
   root: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   height: {
-    height: 120
+    height: 120,
   },
   error: {
-    padding: 16
-  }
+    padding: 16,
+  },
 });
 
 export default ListFooter;

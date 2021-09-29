@@ -1,6 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import * as WebBrowser from "expo-web-browser";
+import { View, StyleSheet } from "react-native";
 import { Appbar, Paragraph, Headline, Divider } from "react-native-paper";
 
 import Link from "../components/Link";

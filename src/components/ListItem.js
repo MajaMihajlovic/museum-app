@@ -18,7 +18,9 @@ const ListItem = memo(({ name, id, objectcount, theme, target }) => {
           key={id}
           onPress={
             target === "object"
-              ? () => push("Details", { title: name, id })
+              ? () => {
+                  push("Details", { title: name, id, description: theme });
+                }
               : () =>
                   push("Feed", {
                     title: name,

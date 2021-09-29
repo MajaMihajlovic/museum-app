@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import { Portal, Dialog, Paragraph, Button } from "react-native-paper";
+import { Portal, Dialog, Button } from "react-native-paper";
 
 const SortDialog = memo(({ visible, onDismiss, buttons }) => (
   <Portal>

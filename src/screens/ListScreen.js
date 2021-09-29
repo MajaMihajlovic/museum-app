@@ -12,7 +12,7 @@ const getItemLayout = (data, index) => {
   return {
     length: LIST_ITEM_HEIGHT,
     offset: LIST_ITEM_HEIGHT * index,
-    index
+    index,
   };
 };
 
@@ -80,7 +80,7 @@ const ListScreen = () => {
           listKey={"search"}
           data={state.filteredRecords}
           renderItem={renderItem}
-          keyExtractor={item => item.id + ""}
+          keyExtractor={(item) => item.id + ""}
           getItemLayout={getItemLayout}
           maxToRenderPerBatch={20}
           initialNumToRender={20}
@@ -92,7 +92,7 @@ const ListScreen = () => {
           listKey={"regular"}
           data={state.records}
           renderItem={renderItem}
-          keyExtractor={item => item.id + ""}
+          keyExtractor={(item) => item.id + ""}
           getItemLayout={getItemLayout}
           maxToRenderPerBatch={20}
           initialNumToRender={20}
@@ -107,8 +107,8 @@ const ListScreen = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#FFF"
-  }
+    backgroundColor: "#FFF",
+  },
 });
 
 export default ListScreen;

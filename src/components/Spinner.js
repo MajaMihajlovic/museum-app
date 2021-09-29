@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
-const Spinner = props => (
+const Spinner = (props) => (
   <ActivityIndicator
     animating={true}
     color={"#000"}
@@ -14,8 +14,8 @@ const Spinner = props => (
 
 const styles = StyleSheet.create({
   root: {
-    padding: 16
-  }
+    padding: 16,
+  },
 });
 
 export default Spinner;

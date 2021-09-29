@@ -18,21 +18,21 @@ function handleLinkPress(url) {
 
 const styles = StyleSheet.create({
   centeredText: {
-    textAlign: "center"
+    textAlign: "center",
   },
   link: {
-    color: "#2e78b7"
-  }
+    color: "#2e78b7",
+  },
 });
 
 Link.defaultProps = {
   Component: Headline,
-  style: {}
+  style: {},
 };
 
 Link.propTypes = {
   url: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default Link;
