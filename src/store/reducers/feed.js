@@ -9,7 +9,7 @@ import {
 } from "../actions/feed";
 
 export const feedInitialState = {
-  loading: true,
+  loading: false,
   records: [],
   error: null,
   grid: false,

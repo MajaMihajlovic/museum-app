@@ -6,22 +6,24 @@ import {
   toggleFeedView,
   setVisibleIndex,
   refreshFeed,
-  sortFeed
+  sortFeed,
 } from "../actions/feed";
 import reducer, { feedInitialState } from "../reducers/feed";
 
-const setVisibleIndexFactory = ({ viewableItems, changed }) => dispatch => {
-  if (viewableItems[0]) {
-    const firstViewable = changed.find(el => el.isViewable);
-    if (firstViewable) {
-      dispatch(
-        setVisibleIndex(Math.min(viewableItems[0].index, firstViewable.index))
-      );
-    } else {
-      dispatch(setVisibleIndex(viewableItems[0].index));
+const setVisibleIndexFactory =
+  ({ viewableItems, changed }) =>
+  (dispatch) => {
+    if (viewableItems[0]) {
+      const firstViewable = changed.find((el) => el.isViewable);
+      if (firstViewable) {
+        dispatch(
+          setVisibleIndex(Math.min(viewableItems[0].index, firstViewable.index))
+        );
+      } else {
+        dispatch(setVisibleIndex(viewableItems[0].index));
+      }
     }
-  }
-};
+  };
 
 export default function useFeedReducer(filter) {
   const [state, dispatch] = useCancelableThunkReducer(
@@ -29,9 +31,10 @@ export default function useFeedReducer(filter) {
     feedInitialState
   );
 
-  const _loadFeed = useCallback(page => dispatch(loadFeed(filter, page)), [
-    filter
-  ]);
+  const _loadFeed = useCallback(
+    (page) => dispatch(loadFeed(filter, page)),
+    [filter]
+  );
   const _refreshFeed = useCallback(
     (sort, sortOrder) => dispatch(refreshFeed(filter, sort, sortOrder)),
     [filter]
@@ -46,10 +49,12 @@ export default function useFeedReducer(filter) {
       dispatch(setVisibleIndexFactory({ viewableItems, changed })),
     []
   );
-  const _onEndReached = useCallback(
-    () => state.page && _loadFeed(state.page++),
-    [state.page]
-  );
+  const _onEndReached = useCallback(() => {
+    if (state.loading == false) {
+      state.page = state.page + 1;
+      return _loadFeed(state.page);
+    }
+  }, []);
 
   return {
     state,
@@ -59,7 +64,7 @@ export default function useFeedReducer(filter) {
       toggleFeedView: _toggleFeedView,
       sortFeed: _sortFeed,
       setVisibleIndex: _setVisibleIndex,
-      onEndReached: _onEndReached
-    }
+      onEndReached: _onEndReached,
+    },
   };
 }

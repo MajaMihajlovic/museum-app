@@ -89,6 +89,8 @@ const FeedScreen = () => {
         grid={state.grid}
         records={state.records}
         onEndReached={actions.onEndReached}
+        onEndReachedThreshold={0.01}
+        //onEndReached = debounce(actions.onEndReached, 500)}
         onRefresh={() => actions.refreshFeed(state.sort, state.sortOrder)}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}

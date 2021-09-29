@@ -58,7 +58,7 @@ const FlatListBase = memo(
         numColumns={GRID_COLUMNS}
         renderItem={renderItemGrid}
         keyExtractor={item => item.id}
-       // onViewableItemsChanged={viewabilityConfig}
+        //onViewableItemsChanged={setVisibleIndex}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayoutGrid}
         maxToRenderPerBatch={10}
@@ -73,7 +73,7 @@ const FlatListBase = memo(
         numColumns={1}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-       // onViewableItemsChanged={viewabilityConfig}
+        //onViewableItemsChanged={setVisibleIndex}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayout}
         maxToRenderPerBatch={5}
@@ -95,7 +95,7 @@ FlatListBase.propTypes = {
   grid: PropTypes.bool.isRequired,
   setVisibleIndex: PropTypes.func.isRequired,
   visibleIndex: PropTypes.number.isRequired,
-  listKey: PropTypes.string.isRequired
+  listKey: PropTypes.string.isRequired,
 };
 
 export default FlatListBase;

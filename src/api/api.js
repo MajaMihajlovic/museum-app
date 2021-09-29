@@ -4,15 +4,22 @@ import { GET } from "./methods";
 export const processFeed = async (results, page) => {
   let records = [];
   for (let r of results) {
-    if (r != undefined)
-      records.push({
-        id: r["o:id"].toString(),
-        name: r["dcterms:title"][0]["@value"],
-        description: r["dcterms:description"][0]["@value"],
-        media: r["o:media"][0]
-          ? await fetchMedia(r["o:media"][0]["@id"])
-          : null,
-      });
+    if (r != undefined) {
+      let id = r["o:id"].toString();
+      let name = r["dcterms:title"][0]["@value"];
+      let description = r["dcterms:description"]
+        ? r["dcterms:description"][0]["@value"]
+        : null;
+      if (id && name && description)
+        records.push({
+          id,
+          name,
+          description,
+          media: r["o:media"][0]
+            ? await fetchMedia(r["o:media"][0]["@id"])
+            : null,
+        });
+    }
   }
   const processed = {
     page,
@@ -113,4 +120,3 @@ const fetchMedia = async (url) => {
 
 //   return await GET(url);
 // };
-
