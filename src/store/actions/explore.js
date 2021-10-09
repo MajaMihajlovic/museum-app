@@ -1,5 +1,4 @@
 import { fetchFeed, fetchCollections } from "../../api/api";
-import Fuse from "fuse.js";
 
 // action types
 

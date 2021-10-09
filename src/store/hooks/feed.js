@@ -1,11 +1,10 @@
 import { useCallback } from "react";
 import useCancelableThunkReducer from "use-cancelable-thunk-reducer";
-import { search, resetSearch } from "../actions/explore";
 import {
   loadFeed,
   toggleFeedView,
   setVisibleIndex,
-  refreshFeed,
+  refreshFeed,search, resetSearch
 } from "../actions/feed";
 import reducer, { feedInitialState } from "../reducers/feed";
 

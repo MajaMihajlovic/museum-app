@@ -27,6 +27,7 @@ export const FeedItem = memo(
           subtitleNumberOfLines={3}
           title={name}
           subtitle={description}
+          style={styles.text}
         />
         <TouchableOpacity
           testID="feed-item"
@@ -121,6 +122,9 @@ FeedItemGrid.propTypes = {
 const styles = StyleSheet.create({
   root: {
     marginTop: 24,
+  },
+  text: {
+    paddingBottom: 5,
   },
   grid: {
     padding: 2,

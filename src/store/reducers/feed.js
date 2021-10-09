@@ -7,12 +7,21 @@ import {
   REFRESH_FEED__SENT,
 } from "../actions/feed";
 
+// todo:remove later
+import {
+  RESET_LIST,
+  FILTER_RECORDS__SENT,
+  FILTER_RECORDS__FULFILLED,
+  FILTER_RECORDS__REJECTED,
+  FILTER_RECORDS__RESET,
+} from "../actions/explore";
 export const feedInitialState = {
   loading: false,
   records: [],
   error: null,
   grid: false,
   visibleIndex: 0,
+  filteredRecords: [],
   refreshing: false,
   page: 1,
 };
@@ -25,7 +34,7 @@ const feedReducer = (state = feedInitialState, action) => {
     case FETCH_FEED__FULFILLED:
       const { page, records } = action.payload;
       const toAdd = records.filter(
-        r => !state.records.find(s => s.id === r.id)
+        (r) => !state.records.find((s) => s.id === r.id)
       );
       return {
         ...state,
@@ -33,7 +42,7 @@ const feedReducer = (state = feedInitialState, action) => {
         records: [...state.records, ...toAdd],
         loading: false,
         refreshing: false,
-        error: null
+        error: null,
       };
 
     case FETCH_FEED__REJECTED:
@@ -41,7 +50,7 @@ const feedReducer = (state = feedInitialState, action) => {
         ...state,
         error: action.payload,
         loading: false,
-        refreshing: false
+        refreshing: false,
       };
 
     case REFRESH_FEED__SENT:
@@ -50,13 +59,42 @@ const feedReducer = (state = feedInitialState, action) => {
         records: [],
         loading: true,
         visibleIndex: 0,
-        refreshing: true
+        refreshing: true,
       };
     case TOGGLE_FEED_VIEW:
       return { ...state, grid: !state.grid };
 
     case SET_VISIBLE_INDEX:
       return { ...state, visibleIndex: action.payload };
+    case FILTER_RECORDS__SENT:
+      return { ...state, error: null, loading: true };
+
+    case FILTER_RECORDS__REJECTED:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+        nextSearchUrl: null,
+      };
+
+    case FILTER_RECORDS__FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        filteredRecords: [...state.filteredRecords, ...action.payload.records],
+        nextSearchUrl: null,
+      };
+
+    case FILTER_RECORDS__RESET:
+      return {
+        ...state,
+        error: null,
+        filteredRecords: [],
+        nextSearchUrl: null,
+      };
+    case RESET_LIST:
+      return { ...initialState };
 
     default:
       return state;

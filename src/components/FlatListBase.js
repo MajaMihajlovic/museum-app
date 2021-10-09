@@ -37,7 +37,7 @@ const getItemLayoutGrid = (data, index) => {
   };
 };
 const getItemLayout = (data, index) => {
-  const height = width + CARD_OFFSET;
+  const height = (width/2) + CARD_OFFSET;
   return {
     length: height,
     offset: height * index,

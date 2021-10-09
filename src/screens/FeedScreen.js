@@ -66,7 +66,7 @@ const FeedScreen = () => {
         </Appbar.Header>
       )}
 
-{showSearch ? (
+{!showSearch ? (
       <FlatListBase
         listKey={`${state.grid ? "g" : "l"}`}
         setVisibleIndex={actions.setVisibleIndex}
@@ -74,7 +74,7 @@ const FeedScreen = () => {
         grid={state.grid}
         records={state.records}
         onEndReached={actions.onEndReached}
-        onEndReachedThreshold={0.01}
+        //onEndReachedThreshold={0.01}
         onRefresh={() => actions.refreshFeed()}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}
@@ -86,9 +86,9 @@ const FeedScreen = () => {
         setVisibleIndex={actions.setVisibleIndex}
         visibleIndex={state.visibleIndex}
         grid={state.grid}
-        records={state.records}
+        records={state.filteredRecords}
         onEndReached={actions.onEndReachedSearch}
-        onEndReachedThreshold={0.01}
+        //onEndReachedThreshold={0.01}
         onRefresh={() => actions.refreshFeed()}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}
