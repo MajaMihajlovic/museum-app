@@ -2,7 +2,6 @@ import {
   FETCH_TARGET__SENT,
   FETCH_TARGET__FULFILLED,
   FETCH_TARGET__REJECTED,
-  SORT_LIST,
   RESET_LIST,
   FILTER_RECORDS__SENT,
   FILTER_RECORDS__FULFILLED,
@@ -10,7 +9,7 @@ import {
   FILTER_RECORDS__RESET,
   FETCH_COLLECTIONS__SENT,
   FETCH_COLLECTIONS__FULFILLED,
-  FETCH_COLLECTIONS__REJECTED
+  FETCH_COLLECTIONS__REJECTED,
 } from "../actions/explore";
 
 export const initialState = {
@@ -26,7 +25,7 @@ export const initialState = {
   filteredRecords: [],
   nextSearchUrl: null,
   collections: [],
-  loadingCollections: false
+  loadingCollections: false,
 };
 
 const exploreReducer = (state = initialState, action) => {
@@ -44,34 +43,33 @@ const exploreReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         target,
-        desc
+        desc,
       };
 
     case FETCH_TARGET__REJECTED:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
       };
 
-      case FETCH_COLLECTIONS__SENT:
+    case FETCH_COLLECTIONS__SENT:
       return { ...state, loadingCollections: true };
 
     case FETCH_COLLECTIONS__FULFILLED:
-     //const {  records } = action.payload;
+      //const {  records } = action.payload;
       return {
         ...state,
         collections: action.payload.records,
-        loadingCollections:false
+        loadingCollections: false,
       };
 
     case FETCH_COLLECTIONS__REJECTED:
       return {
         ...state,
         error: action.payload,
-        loadingCollections: false
+        loadingCollections: false,
       };
-
 
     case FILTER_RECORDS__SENT:
       return { ...state, error: null, loading: true };
@@ -81,7 +79,7 @@ const exploreReducer = (state = initialState, action) => {
         ...state,
         error: action.payload,
         loading: false,
-        nextSearchUrl: null
+        nextSearchUrl: null,
       };
 
     case FILTER_RECORDS__FULFILLED:
@@ -90,7 +88,7 @@ const exploreReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         filteredRecords: [...state.filteredRecords, ...action.payload.records],
-        nextSearchUrl: action.payload.info.page
+        nextSearchUrl: action.payload.info.page,
       };
 
     case FILTER_RECORDS__RESET:
@@ -98,12 +96,8 @@ const exploreReducer = (state = initialState, action) => {
         ...state,
         error: null,
         filteredRecords: [],
-        nextSearchUrl: null
+        nextSearchUrl: null,
       };
-
-    case SORT_LIST:
-      return { ...state, desc: !state.desc };
-
     case RESET_LIST:
       return { ...initialState };
 

@@ -68,28 +68,28 @@ const FeedScreen = () => {
 
 {showSearch ? (
       <FlatListBase
-        listKey={`${state.grid ? "g" : "l"}-${state.sortOrder}-${state.sort}`}
+        listKey={`${state.grid ? "g" : "l"}`}
         setVisibleIndex={actions.setVisibleIndex}
         visibleIndex={state.visibleIndex}
         grid={state.grid}
         records={state.records}
         onEndReached={actions.onEndReached}
         onEndReachedThreshold={0.01}
-        onRefresh={() => actions.refreshFeed(state.sort, state.sortOrder)}
+        onRefresh={() => actions.refreshFeed()}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}
         ListEmptyComponent={EmptyListComponent}
       />
       ) : (
         <FlatListBase
-        listKey={`${state.grid ? "g" : "l"}-${state.sortOrder}-${state.sort}`}
+        listKey={`${state.grid ? "g" : "l"}`}
         setVisibleIndex={actions.setVisibleIndex}
         visibleIndex={state.visibleIndex}
         grid={state.grid}
         records={state.records}
         onEndReached={actions.onEndReachedSearch}
         onEndReachedThreshold={0.01}
-        onRefresh={() => actions.refreshFeed(state.sort, state.sortOrder)}
+        onRefresh={() => actions.refreshFeed()}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}
         ListEmptyComponent={EmptyListComponent}
