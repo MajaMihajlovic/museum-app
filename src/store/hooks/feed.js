@@ -52,7 +52,7 @@ export default function useFeedReducer(filter) {
 
   const onSubmitSearch = text => {
     dispatch(resetSearch());
-    dispatch(search(text, filter, state.records));
+    dispatch(search(text));
   };
 
   //todo

@@ -36,63 +36,31 @@ export const loadListOf =
     }
   };
 
-export const localSearch = (records, value) => (dispatch) => {
-  const options = {
-    shouldSort: true,
-    threshold: 0.5,
-    maxPatternLength: 100,
-    minMatchCharLength: 1,
-    keys: ["name"],
-  };
-  const fuse = new Fuse(records, options);
-  const filtered = fuse.search(value);
-
-  if (filtered.length === 0) {
-    dispatch({ type: FILTER_RECORDS__REJECTED, payload: "Nothing to show." });
-  } else if (filtered.length <= 100) {
-    dispatch({
-      type: FILTER_RECORDS__FULFILLED,
-      payload: { records: filtered, info: { next: null } },
-    });
-  } else {
-    dispatch({
-      type: FILTER_RECORDS__REJECTED,
-      payload: "Too many results, try to be more specific.",
-    });
+export const apiSearch = (target) => async (dispatch) => {
+  dispatch({ type: FILTER_RECORDS__SENT });
+  try {
+    const results = await fetchFeed(null, null, target);
+    if (results.records.length === 0) {
+      dispatch({
+        type: FILTER_RECORDS__REJECTED,
+        payload: "Nothing to show.",
+      });
+    } else {
+      dispatch({
+        type: FILTER_RECORDS__FULFILLED,
+        payload: { ...results },
+      });
+    }
+  } catch (err) {
+    dispatch({ type: FILTER_RECORDS__REJECTED, payload: err.message });
   }
 };
 
-export const apiSearch =
-  ( target) =>
-  async (dispatch) => {
-    dispatch({ type: FILTER_RECORDS__SENT });
-    try {
-      const results = await fetchFeed(null, null, target);
-      if (results.records.length === 0) {
-        dispatch({
-          type: FILTER_RECORDS__REJECTED,
-          payload: "Nothing to show.",
-        });
-      } else {
-        dispatch({
-          type: FILTER_RECORDS__FULFILLED,
-          payload: { ...results },
-        });
-      }
-    } catch (err) {
-      dispatch({ type: FILTER_RECORDS__REJECTED, payload: err.message });
-    }
-  };
-
 export const search =
-  (value = "", target, records = null, url = null) =>
+  (value = "") =>
   async (dispatch) => {
-    if (records) {
-      localSearch(records, value)(dispatch);
-    } else {
-      console.log(value)
-      apiSearch(value)(dispatch);
-    }
+    console.log(value);
+    apiSearch(value)(dispatch);
   };
 
 export const resetSearch = () => ({ type: FILTER_RECORDS__RESET });

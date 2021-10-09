@@ -44,25 +44,27 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            <View style={styles.image} id={id}>
-              {/* <Swiper> */}
+            {media?.thumbnailUrl ? (
+              <View style={styles.image} id={id}>
+                {/* <Swiper> */}
 
-              <Image
-                key={media}
-                source={{ uri: media?.thumbnailUrl }}
-                style={styles.image}
-              />
-              {/* </Swiper> */}
-              <FavoriteFab
-                record={{
-                  id,
-                  title,
-                  media,
-                  description,
-                }}
-                style={styles.fab}
-              />
-            </View>
+                <Image
+                  key={media}
+                  source={{ uri: media?.thumbnailUrl }}
+                  style={styles.image}
+                />
+
+                <FavoriteFab
+                  record={{
+                    id,
+                    title,
+                    media,
+                    description,
+                  }}
+                  style={styles.fab}
+                />
+              </View>
+            ) : null}
             <View style={styles.body}>
               <Title>ID</Title>
               <Paragraph>{id}</Paragraph>
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width,
-    height: width * 1.5,
+    height: width,
     resizeMode: "contain",
   },
   fab: {

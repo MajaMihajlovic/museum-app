@@ -41,13 +41,21 @@ export const FeedItem = memo(
             })
           }
         >
-          <Card.Cover
-            source={{
-              uri: `${media?.thumbnailUrl}?height=${listImage}&width=${listImage}`,
-            }}
-            resizeMode="contain"
-            style={styles.image}
-          />
+          {media?.thumbnailUrl ? (
+            <Card.Cover
+              source={{
+                uri: `${media.thumbnailUrl}?height=${listImage}&width=${listImage}`,
+              }}
+              resizeMode="contain"
+              style={styles.image}
+            />
+          ) : (
+            <Card.Cover
+              source={require("./../../assets/defaultImg.png")}
+              resizeMode="contain"
+              style={styles.image}
+            />
+          )}
         </TouchableOpacity>
         <Card.Content>
           <Caption>{century}</Caption>
@@ -85,13 +93,21 @@ export const FeedItemGrid = memo(({ id, media, ...other }) => {
         testID="feed-item-grid"
         onPress={() => push("Details", { id, media, ...other })}
       >
-        <Card.Cover
-          source={{
-            uri: `${media?.thumbnailUrl}?height=${gridImage}&width=${gridImage}`,
-          }}
-          resizeMode="contain"
-          style={styles.imageGrid}
-        />
+        {media?.thumbnailUrl ? (
+          <Card.Cover
+            source={{
+              uri: `${media?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
+            }}
+            resizeMode="contain"
+            style={styles.imageGrid}
+          />
+        ) : (
+          <Card.Cover
+            source={require("./../../assets/defaultImg.png")}
+            resizeMode="contain"
+            style={styles.imageGrid}
+          />
+        )}
       </TouchableOpacity>
     </Card>
   );
@@ -111,11 +127,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width,
-    height: width,
   },
   imageGrid: {
     width: width / GRID_COLUMNS - 4,
-    height: width / GRID_COLUMNS - 4,
   },
   fab: {
     position: "absolute",
