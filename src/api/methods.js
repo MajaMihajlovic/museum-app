@@ -52,6 +52,7 @@ export async function doFetch(path, opt = {}, hints = {}) {
     let url = path.includes("http")
       ? path
       : resolveAPIUrl(path, opt && opt.query);
+      console.log(url)
     let response = await fetch(url, options);
     response = checkOk(response);
     if (hints.checkResponse) hints.checkResponse(response);

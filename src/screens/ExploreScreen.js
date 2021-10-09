@@ -28,7 +28,10 @@ const ExploreScreen = () => {
             state.collections?.map((target) => (
               <Surface elevation={4} style={styles.surface} key={target.id}>
                 <TouchableRipple
-                  onPress={() => push("List", { target })}
+                  onPress={() => {
+                    console.log(target);
+                    push("List", { target:target.name });
+                  }}
                   style={styles.card}
                 >
                   <Title>{target.name}</Title>

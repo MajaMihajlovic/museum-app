@@ -5,7 +5,6 @@ import {
   TOGGLE_FEED_VIEW,
   SET_VISIBLE_INDEX,
   REFRESH_FEED__SENT,
-  SORT_FEED
 } from "../actions/feed";
 
 export const feedInitialState = {
@@ -15,8 +14,6 @@ export const feedInitialState = {
   grid: false,
   visibleIndex: 0,
   refreshing: false,
-  sort: "totalpageviews",
-  sortOrder: "desc",
   page: 1,
 };
 
@@ -55,15 +52,6 @@ const feedReducer = (state = feedInitialState, action) => {
         visibleIndex: 0,
         refreshing: true
       };
-
-    case SORT_FEED:
-      return {
-        ...state,
-        ...feedInitialState,
-        grid: state.grid,
-        ...action.payload
-      };
-
     case TOGGLE_FEED_VIEW:
       return { ...state, grid: !state.grid };
 

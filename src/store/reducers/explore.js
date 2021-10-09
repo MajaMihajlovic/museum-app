@@ -39,8 +39,8 @@ const exploreReducer = (state = initialState, action) => {
       return {
         ...state,
         records: [...state.records, ...records],
-        page: info.page,
-        totalRecords: info.totalrecords,
+        page: info?.page,
+        totalRecords: info?.totalrecords,
         loading: false,
         error: null,
         target,

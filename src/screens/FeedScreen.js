@@ -4,10 +4,10 @@ import { Appbar } from "react-native-paper";
 import { useNavigationParam, useNavigation } from "react-navigation-hooks";
 
 import useFeedReducer from "../store/hooks/feed";
-import SortDialog from "../components/SortDialog";
+import SearchBar from "../components/SearchBar";
 import FlatListBase from "../components/FlatListBase";
 import ListFooter from "../components/ListFooter";
-import EmptyList from "../components/EmptyList";
+import EmptyList from "../components/EmptyList";;
 
 const FeedScreen = () => {
   const title = useNavigationParam("title") || "Katalog";
@@ -21,30 +21,7 @@ const FeedScreen = () => {
     actions.loadFeed();
   }, []);
 
-  const [visible, setVisible] = useState(false);
-  const onDismiss = () => setVisible(false);
-
-  const buttons = useCallback(
-    () => [
-      {
-        title: "Recent page views",
-        onPress: () => actions.sortFeed("dateoflastpageview", "desc", filter),
-      },
-      {
-        title: "Older page views",
-        onPress: () => actions.sortFeed("dateoflastpageview", "asc", filter),
-      },
-      {
-        title: "More total views",
-        onPress: () => actions.sortFeed("totalpageviews", "desc", filter),
-      },
-      {
-        title: "Less total views",
-        onPress: () => actions.sortFeed("totalpageviews", "asc", filter),
-      },
-    ],
-    [actions.sortFeed]
-  )();
+  const [showSearch, setShowSearch] = useState(false);
 
   const ListFooterComponent = useCallback(
     () => (
@@ -67,21 +44,29 @@ const FeedScreen = () => {
 
   return (
     <View style={styles.root}>
-      <SortDialog visible={visible} onDismiss={onDismiss} buttons={buttons} />
-      <Appbar.Header>
-        {filter && <Appbar.BackAction onPress={() => goBack()} />}
-        <Appbar.Content title={title} subtitle={subtitle} />
-        <Appbar.Action
-          disabled={state.loading || state.refreshing}
-          icon={"sort-variant"}
-          onPress={() => setVisible(true)}
-        />
-        <Appbar.Action
+      {showSearch ? (
+        <Appbar.Header>
+          <SearchBar
+            dismiss={() => setShowSearch(false)}
+            onSubmit={actions.onSubmitSearch}
+          />
+        </Appbar.Header>
+      ) : (
+        <Appbar.Header>
+          <Appbar.Content title={title} subtitle={subtitle} />
+          <Appbar.Action
+            icon={"magnify"}
+            onPress={() =>setShowSearch(true)}
+          />
+           <Appbar.Action
           disabled={state.loading || state.refreshing}
           icon={state.grid ? "view-agenda" : "view-grid"}
           onPress={actions.toggleFeedView}
         />
-      </Appbar.Header>
+        </Appbar.Header>
+      )}
+
+{showSearch ? (
       <FlatListBase
         listKey={`${state.grid ? "g" : "l"}-${state.sortOrder}-${state.sort}`}
         setVisibleIndex={actions.setVisibleIndex}
@@ -90,13 +75,28 @@ const FeedScreen = () => {
         records={state.records}
         onEndReached={actions.onEndReached}
         onEndReachedThreshold={0.01}
-        //onEndReached = debounce(actions.onEndReached, 500)}
         onRefresh={() => actions.refreshFeed(state.sort, state.sortOrder)}
         refreshing={state.refreshing}
         ListFooterComponent={ListFooterComponent}
         ListEmptyComponent={EmptyListComponent}
       />
+      ) : (
+        <FlatListBase
+        listKey={`${state.grid ? "g" : "l"}-${state.sortOrder}-${state.sort}`}
+        setVisibleIndex={actions.setVisibleIndex}
+        visibleIndex={state.visibleIndex}
+        grid={state.grid}
+        records={state.records}
+        onEndReached={actions.onEndReachedSearch}
+        onEndReachedThreshold={0.01}
+        onRefresh={() => actions.refreshFeed(state.sort, state.sortOrder)}
+        refreshing={state.refreshing}
+        ListFooterComponent={ListFooterComponent}
+        ListEmptyComponent={EmptyListComponent}
+      />
+        )}
     </View>
+    
   );
 };
 

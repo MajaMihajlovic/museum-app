@@ -1,12 +1,11 @@
 import { useCallback } from "react";
 import useCancelableThunkReducer from "use-cancelable-thunk-reducer";
-
+import { search, resetSearch } from "../actions/explore";
 import {
   loadFeed,
   toggleFeedView,
   setVisibleIndex,
   refreshFeed,
-  sortFeed,
 } from "../actions/feed";
 import reducer, { feedInitialState } from "../reducers/feed";
 
@@ -35,15 +34,10 @@ export default function useFeedReducer(filter) {
     (page) => dispatch(loadFeed(filter, page)),
     [filter]
   );
-  const _refreshFeed = useCallback(
-    (sort, sortOrder) => dispatch(refreshFeed(filter, sort, sortOrder)),
+  const _refreshFeed = useCallback(() => dispatch(refreshFeed(filter)),
     [filter]
   );
   const _toggleFeedView = useCallback(() => dispatch(toggleFeedView()), []);
-  const _sortFeed = useCallback(
-    (sort, order) => dispatch(sortFeed(sort, order, filter)),
-    [filter]
-  );
   const _setVisibleIndex = useCallback(
     ({ viewableItems, changed }) =>
       dispatch(setVisibleIndexFactory({ viewableItems, changed })),
@@ -56,15 +50,26 @@ export default function useFeedReducer(filter) {
     }
   }, []);
 
+  const onSubmitSearch = text => {
+    dispatch(resetSearch());
+    dispatch(search(text, filter, state.records));
+  };
+
+  //todo
+  const onEndReachedSearch = () =>
+    state.nextSearchUrl &&
+    dispatch(loadListOf(target, state.nextSearchUrl, false, true));
+
   return {
     state,
     actions: {
       loadFeed: _loadFeed,
       refreshFeed: _refreshFeed,
       toggleFeedView: _toggleFeedView,
-      sortFeed: _sortFeed,
       setVisibleIndex: _setVisibleIndex,
       onEndReached: _onEndReached,
+      onSubmitSearch,
+      onEndReachedSearch
     },
   };
 }
