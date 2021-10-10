@@ -31,7 +31,6 @@ export const processFeed = async (results, page) => {
 export const fetchFeed = async (url = null, page = 1, search) => {
   let fullUrl = url ? url : `items?page=${page}&per_page=20`;
   if (search) {
-    console.log(search)
     let query = encodeURIComponent(search);
     fullUrl = `items?search=${query}`;
     
