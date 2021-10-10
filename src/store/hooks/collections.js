@@ -1,9 +1,9 @@
 import useCancelableThunkReducer from "use-cancelable-thunk-reducer";
 
-import { loadListOf, loadCollections } from "../actions/explore";
-import reducer, { initialState } from "../reducers/explore";
+import { loadListOf, loadCollections } from "../actions/collections";
+import reducer, { initialState } from "../reducers/collections";
 
-export default function useExploreReducer(target) {
+export default function useCollectionsReducer(target) {
   const [state, dispatch] = useCancelableThunkReducer(reducer, initialState);
 
   const loadList = () => dispatch(loadListOf(target));

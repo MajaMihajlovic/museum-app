@@ -63,7 +63,6 @@ export const apiSearch = (target) => async (dispatch) => {
 export const search =
   (value = "") =>
   async (dispatch) => {
-    console.log(value);
     apiSearch(value)(dispatch);
   };
 

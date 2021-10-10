@@ -77,25 +77,6 @@ const DetailsScreen = () => {
               <Paragraph>{description}</Paragraph>
               <Divider />
 
-              {/* <Title>People</Title>
-              {state.record.people ? (
-                state.record.people.map((p) => (
-                  <TouchableOpacity
-                    testID="push-details-screen"
-                    key={p.personid + p.role}
-                    onPress={() => push("Person", { ...p })}
-                  >
-                    <Paragraph>
-                      <Paragraph style={styles.link}>{p.name}</Paragraph> (
-                      {p.role})
-                    </Paragraph>
-                  </TouchableOpacity>
-                ))
-              ) : (
-                <Text>-</Text>
-              )}
-              <Divider /> */}
-
               {state.record.properties
                 ? state.record.properties.map((prop, i) => (
                     <View key={i}>

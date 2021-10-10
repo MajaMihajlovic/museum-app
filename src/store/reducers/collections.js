@@ -10,7 +10,7 @@ import {
   FETCH_COLLECTIONS__SENT,
   FETCH_COLLECTIONS__FULFILLED,
   FETCH_COLLECTIONS__REJECTED,
-} from "../actions/explore";
+} from "../actions/collections";
 
 export const initialState = {
   loading: false,
@@ -28,7 +28,7 @@ export const initialState = {
   loadingCollections: false,
 };
 
-const exploreReducer = (state = initialState, action) => {
+const collectionsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_TARGET__SENT:
       return { ...state, loading: true };
@@ -106,4 +106,4 @@ const exploreReducer = (state = initialState, action) => {
   }
 };
 
-export default exploreReducer;
+export default collectionsReducer;

@@ -4,7 +4,7 @@ import { TabView, TabBar } from "react-native-tab-view";
 
 import TabBarIcon from "../components/TabBarIcon";
 import FeedScreen from "../screens/FeedScreen";
-import ExploreScreen from "../screens/ExploreScreen";
+import CollectionsScreen from "../screens/CollectionsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import AboutScreen from "../screens/AboutScreen";
 import theme from "../util/theme";
@@ -24,8 +24,8 @@ const renderScene = ({ route }) => {
       return <FeedScreen />;
     case "favorites":
       return <FavoritesScreen />;
-    case "explore":
-      return <ExploreScreen />;
+    case "collections":
+      return <CollectionsScreen />;
     case "about":
       return <AboutScreen />;
     default:
@@ -38,7 +38,7 @@ const MainTabNavigator = props => {
     index: 0,
     routes: [
       { key: "feed", icon: "ios-home" },
-      { key: "explore", icon: "ios-search" },
+      { key: "collections", icon: "ios-search" },
       { key: "favorites", icon: "ios-heart" },
       { key: "about", icon: "ellipsis-horizontal-outline" }
     ]

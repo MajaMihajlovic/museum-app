@@ -3,11 +3,12 @@ import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Appbar, Surface, Title, TouchableRipple } from "react-native-paper";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import Spinner from "../components/Spinner";
-import useExploreReducer from "../store/hooks/explore";
+import { FETCH_TARGET__REJECTED } from "../store/actions/collections";
+import useCollectionsReducer from "../store/hooks/collections";
 
-const ExploreScreen = () => {
+const CollectionsScreen = () => {
   const { push } = useNavigation();
-  const { state, actions } = useExploreReducer("null");
+  const { state, actions } = useCollectionsReducer("null");
 
   useEffect(() => {
     actions.onLoad();
@@ -25,16 +26,19 @@ const ExploreScreen = () => {
           ) : state.error ? (
             <Text style={styles.body}>{state.error}</Text>
           ) : (
-            state.collections?.map((target) => (
-              <Surface elevation={4} style={styles.surface} key={target.id}>
+            state.collections?.map((col) => (
+              <Surface elevation={4} style={styles.surface} key={col.name}>
                 <TouchableRipple
                   onPress={() => {
-                    console.log(target);
-                    push("List", { target:target.name });
+                    push("CollectionDetails", {
+                      id: col.id,
+                      name: col.name,
+                      description: col.description,
+                    });
                   }}
                   style={styles.card}
                 >
-                  <Title>{target.name}</Title>
+                  <Title>{col.name}</Title>
                 </TouchableRipple>
               </Surface>
             ))
@@ -72,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExploreScreen;
+export default CollectionsScreen;

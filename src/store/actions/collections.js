@@ -1,4 +1,4 @@
-import { fetchFeed, fetchCollections } from "../../api/api";
+import { fetchFeed, fetchCollections, loadCollectionItems } from "../../api/api";
 
 // action types
 
@@ -22,7 +22,7 @@ export const loadListOf =
   async (dispatch) => {
     dispatch({ type: FETCH_TARGET__SENT });
     try {
-      const results = await fetchFeed(null, null, target);
+      const results = await loadCollectionItems(target);
       dispatch({
         type: search ? FILTER_RECORDS__FULFILLED : FETCH_TARGET__FULFILLED,
         payload: { ...results, target, desc },
@@ -58,7 +58,6 @@ export const apiSearch = (target) => async (dispatch) => {
 export const search =
   (value = "") =>
   async (dispatch) => {
-    console.log(value);
     apiSearch(value)(dispatch);
   };
 

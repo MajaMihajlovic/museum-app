@@ -14,7 +14,7 @@ import {
   FILTER_RECORDS__FULFILLED,
   FILTER_RECORDS__REJECTED,
   FILTER_RECORDS__RESET,
-} from "../actions/explore";
+} from "../actions/collections";
 export const feedInitialState = {
   loading: false,
   records: [],

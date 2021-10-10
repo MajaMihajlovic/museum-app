@@ -33,9 +33,7 @@ export const fetchFeed = async (url = null, page = 1, search) => {
   if (search) {
     let query = encodeURIComponent(search);
     fullUrl = `items?search=${query}`;
-    
   }
-  console.log(fullUrl)
   const results = await GET(fullUrl);
   return await processFeed(results, page);
 };
@@ -58,13 +56,24 @@ export const fetchRecord = async (id) => {
   return processRecord(results);
 };
 
+export const loadCollectionItems = async (id) => {
+  const results = await GET("items?item_set_id=" + id);
+  return await processFeed(results, null);
+};
+
 export const fetchCollections = async (url = null) => {
   const results = await GET(url ? url : `item_sets`);
   return {
-    records: results.map((r) => ({
-      id: r["o:id"].toString(),
-      name: r["dcterms:title"][0]["@value"],
-    })),
+    records: results.map((r) => {
+      let description = r["dcterms:description"]
+        ? r["dcterms:description"][0]["@value"]
+        : null;
+      return {
+        id: r["o:id"].toString(),
+        name: r["dcterms:title"][0]["@value"],
+        description,
+      };
+    }),
   };
 };
 

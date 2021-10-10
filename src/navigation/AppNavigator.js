@@ -4,7 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import MainTabNavigator from "./MainTabNavigator";
 import DetailsScreen from "../screens/DetailsScreen";
-import ListScreen from "../screens/ListScreen";
+import CollectionDetailsScreen from "../screens/CollectionDetailsScreen";
 import FeedScreen from "../screens/FeedScreen";
 
 const MainStack = createStackNavigator(
@@ -13,7 +13,7 @@ const MainStack = createStackNavigator(
       screen: MainTabNavigator
     },
     Details: DetailsScreen,
-    List: ListScreen,
+    CollectionDetails: CollectionDetailsScreen,
     Feed: FeedScreen
   },
   {

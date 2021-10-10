@@ -1,9 +1,9 @@
 import React, { useEffect, memo, useState, useCallback } from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
-import { Appbar } from "react-native-paper";
+import { Appbar, Divider, Paragraph, Title } from "react-native-paper";
 
-import useExploreReducer from "../store/hooks/explore";
+import useCollectionsReducer from "../store/hooks/collections";
 import ListFooter from "../components/ListFooter";
 import ListItem, { LIST_ITEM_HEIGHT } from "../components/ListItem";
 
@@ -31,10 +31,13 @@ const MemoizedList = memo(
   areEqual
 );
 
-const ListScreen = () => {
+const CollectionDetailsScreen = () => {
   const { push, goBack } = useNavigation();
-  const target = useNavigationParam("target");
-  const { state, actions } = useExploreReducer(target?.toLowerCase());
+  const name = useNavigationParam("name");
+  const id = useNavigationParam("id");
+  const description = useNavigationParam("description");
+
+  const { state, actions } = useCollectionsReducer(id);
 
   useEffect(() => {
     actions.loadList();
@@ -42,9 +45,9 @@ const ListScreen = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => (
-      <ListItem key={item.id + ""} {...item} target={state.target} />
+      <ListItem key={item.id + ""} {...item} target={state.name} />
     ),
-    [state.target]
+    [state.name]
   );
 
   const renderListFooter = useCallback(
@@ -56,9 +59,19 @@ const ListScreen = () => {
     <View style={styles.root}>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => goBack()} />
-        <Appbar.Content title={target} />
+        <Appbar.Content title={name} />
       </Appbar.Header>
-      <MemoizedList
+
+      <View style={styles.body}>
+      <Title>Naziv kolekcije</Title>
+        <Paragraph>{name}</Paragraph>
+        <Divider />
+        <Title>Opis</Title>
+        <Paragraph>{description ? description : "-"}</Paragraph>
+        <Divider />
+        <Title>Skup unosa</Title>
+      </View>
+      {/* <MemoizedList
         listKey={"regular"}
         data={state.records}
         renderItem={renderItem}
@@ -68,7 +81,7 @@ const ListScreen = () => {
         initialNumToRender={20}
         onEndReached={actions.onEndReached}
         ListFooterComponent={renderListFooter}
-      />
+      /> */}
     </View>
   );
 };
@@ -78,6 +91,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
   },
+  body: {
+    padding: 16,
+  },
 });
 
-export default ListScreen;
+export default CollectionDetailsScreen;
