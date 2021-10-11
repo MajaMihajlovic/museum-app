@@ -2,6 +2,7 @@ import React, { useEffect, memo, useState, useCallback } from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 import { Appbar, Divider, Paragraph, Title } from "react-native-paper";
+import CollapsibleView from "@eliav2/react-native-collapsible-view";
 
 import useCollectionsReducer from "../store/hooks/collections";
 import ListFooter from "../components/ListFooter";
@@ -45,7 +46,7 @@ const CollectionDetailsScreen = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => (
-      <ListItem key={item.id + ""} {...item} target={state.name} />
+      <ListItem key={item.id} {...item} target={state.name} />
     ),
     [state.name]
   );
@@ -63,25 +64,32 @@ const CollectionDetailsScreen = () => {
       </Appbar.Header>
 
       <View style={styles.body}>
-      <Title>Naziv kolekcije</Title>
+        <Title>Naziv kolekcije</Title>
         <Paragraph>{name}</Paragraph>
         <Divider />
-        <Title>Opis</Title>
-        <Paragraph>{description ? description : "-"}</Paragraph>
-        <Divider />
+        <CollapsibleView
+          title="Opis"
+          initExpanded={true}
+          noArrow={true}
+          titleStyle={{ textAlign: "left",color: "black" }}
+          style={{ textAlign: "right",color: "black", borderWidth: 0, backgroundColor: "white" }}
+        >
+          <Paragraph>{description ? description : "-"}</Paragraph>
+        </CollapsibleView>
+
         <Title>Skup unosa</Title>
       </View>
-      {/* <MemoizedList
+      <MemoizedList
         listKey={"regular"}
         data={state.records}
         renderItem={renderItem}
-        keyExtractor={(item) => item?.id + ""}
+        keyExtractor={(item) => item.id}
         getItemLayout={getItemLayout}
         maxToRenderPerBatch={20}
         initialNumToRender={20}
         onEndReached={actions.onEndReached}
         ListFooterComponent={renderListFooter}
-      /> */}
+      />
     </View>
   );
 };

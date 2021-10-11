@@ -87,7 +87,7 @@ const collectionsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        filteredRecords: [...state.filteredRecords, ...action.payload.records],
+        filteredRecords: [ ...action.payload.records],
         nextSearchUrl: action.payload.info.page,
       };
 

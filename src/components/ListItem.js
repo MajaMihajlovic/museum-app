@@ -1,44 +1,33 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { Title, Caption } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { useNavigation } from "react-navigation-hooks";
 
 export const LIST_ITEM_HEIGHT = 48;
 
 // ListItem used in Search Tab
 
-const ListItem = memo(({ name, id, objectcount, theme, target }) => {
+const ListItem = memo(({ name, id, description, media }) => {
   const { push } = useNavigation();
   return (
-    <View style={styles.item}>
-      <ScrollView horizontal style={styles.name} indicatorStyle="light">
+    <View >
         <TouchableOpacity
           testID="list-item"
           key={id}
-          onPress={
-            target === "object"
-              ? () => {
-                  push("Details", { title: name, id, description: theme });
-                }
-              : () =>
-                  push("Feed", {
-                    title: name,
-                    subtitle: theme || "",
-                    filter: `&${target?.toLowerCase()}=${id}`,
-                  })
-          }
+          onPress={() => {
+            console.log(name)
+            push("Details", {  name, id, description, media });
+          }}
         >
-          <Title numberOfLines={1}>{name}</Title>
+          <Card.Title
+            style={styles.text}
+            title={name}
+            subtitle={description}
+            subtitleNumberOfLines={3}
+          />
         </TouchableOpacity>
-      </ScrollView>
-      {objectcount > 0 ? (
-        <View style={styles.count}>
-          <Caption numberOfLines={1} ellipsizeMode="tail">
-            {objectcount}
-          </Caption>
-        </View>
-      ) : null}
+     
     </View>
   );
 });
@@ -46,14 +35,14 @@ const ListItem = memo(({ name, id, objectcount, theme, target }) => {
 ListItem.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  objectcount: PropTypes.number,
+  description: PropTypes.string,
   theme: PropTypes.string,
   target: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
   item: {
-    height: LIST_ITEM_HEIGHT,
+    
     paddingLeft: 16,
     paddingRight: 16,
     justifyContent: "flex-start",
@@ -65,6 +54,9 @@ const styles = StyleSheet.create({
   },
   count: {
     padding: 8,
+  },
+  text: {
+    paddingBottom: 5,
   },
 });
 

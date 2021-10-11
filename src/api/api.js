@@ -10,7 +10,7 @@ export const processFeed = async (results, page) => {
       let description = r["dcterms:description"]
         ? r["dcterms:description"][0]["@value"]
         : null;
-      if (id && name && description)
+      if (id && name && description && !records.find((e) => e.id == id))
         records.push({
           id,
           name,
@@ -21,6 +21,7 @@ export const processFeed = async (results, page) => {
         });
     }
   }
+
   const processed = {
     page,
     records,
@@ -58,7 +59,8 @@ export const fetchRecord = async (id) => {
 
 export const loadCollectionItems = async (id) => {
   const results = await GET("items?item_set_id=" + id);
-  return await processFeed(results, null);
+  let response = await processFeed(results, null);
+  return response;
 };
 
 export const fetchCollections = async (url = null) => {
