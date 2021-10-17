@@ -6,7 +6,7 @@ import { Paragraph } from "react-native-paper";
 const EmptyList = ({ notShow }) =>
   notShow ? null : (
     <View style={styles.root}>
-      <Paragraph>Nista za prikazati.</Paragraph>
+      <Paragraph>Ništa za prikazati.</Paragraph>
     </View>
   );
 

@@ -8,7 +8,7 @@ export const LIST_ITEM_HEIGHT = 48;
 
 // ListItem used in Search Tab
 
-const ListItem = memo(({ name, id, description, media }) => {
+const ListItem = memo(({ name, id, description, media,collectionName  }) => {
   const { push } = useNavigation();
   return (
     <View >
@@ -17,7 +17,7 @@ const ListItem = memo(({ name, id, description, media }) => {
           key={id}
           onPress={() => {
             console.log(name)
-            push("Details", {  name, id, description, media });
+            push("Details", {  name, id, description, media, collectionName });
           }}
         >
           <Card.Title

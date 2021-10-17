@@ -47,7 +47,7 @@ export const apiSearch = (target) => async (dispatch) => {
     if (results.records.length === 0) {
       dispatch({
         type: FILTER_RECORDS__REJECTED,
-        payload: "Nothing to show.",
+        payload: "Ništa za prikazati.",
       });
     } else {
       dispatch({

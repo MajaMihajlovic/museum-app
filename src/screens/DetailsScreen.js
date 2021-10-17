@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -19,13 +19,34 @@ const DetailsScreen = () => {
   const id = useNavigationParam("id");
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
+  const collectionName = useNavigationParam("collectionName");
   const media = useNavigationParam("media");
 
+  const getHeigth = async () => {
+    try {
+      await Image.getSize(mediaUrl, (_, height) => {
+        if (height) setHeight(height);
+      });
+    } catch (e) {
+      console.log("unable to load image");
+      console.log(media);
+    }
+  };
+  const width = Dimensions.get("window").width;
+
   const { goBack, push } = useNavigation();
+  const [height, setHeight] = useState(false);
+  const [mediaUrl, setMediaUrl] = useState(null);
 
   const { state, actions } = useDetailsReducer(id);
   useEffect(() => {
     actions.loadRecord();
+    setMediaUrl(
+      media["record"] != null
+        ? media["record"]["o:thumbnail_urls"]?.large
+        : media.thumbnailUrl
+    );
+    if (mediaUrl) getHeigth();
   }, []);
 
   return (
@@ -35,7 +56,7 @@ const DetailsScreen = () => {
           testID="go-back-details-screen"
           onPress={() => goBack()}
         />
-        <Appbar.Content title={title} subtitle={description} />
+        <Appbar.Content title={title} subtitle={collectionName} />
       </Appbar.Header>
       <ScrollView style={styles.content}>
         {state.loading ? (
@@ -45,13 +66,19 @@ const DetailsScreen = () => {
         ) : (
           <React.Fragment>
             {media?.thumbnailUrl ? (
-              <View style={styles.image} id={id}>
+              <View id={id}>
                 {/* <Swiper> */}
 
                 <Image
                   key={media}
-                  source={{ uri: media?.thumbnailUrl }}
-                  style={styles.image}
+                  source={{
+                    uri: mediaUrl,
+                  }}
+                  style={{
+                    width: width,
+                    resizeMode: "contain",
+                    height: height > width ? width : height,
+                  }}
                 />
 
                 <FavoriteFab
@@ -94,8 +121,6 @@ const DetailsScreen = () => {
   );
 };
 
-const width = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -108,11 +133,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     padding: 16,
-  },
-  image: {
-    width: width,
-    height: width,
-    resizeMode: "contain",
   },
   fab: {
     position: "absolute",

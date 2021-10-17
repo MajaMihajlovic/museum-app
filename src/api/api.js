@@ -7,14 +7,16 @@ export const processFeed = async (results, page) => {
     if (r != undefined) {
       let id = r["o:id"].toString();
       let name = r["dcterms:title"][0]["@value"];
+      let collectionName=r["rs:collectionName"][0]["@value"];
       let description = r["dcterms:description"]
         ? r["dcterms:description"][0]["@value"]
         : null;
-      if (id && name && description && !records.find((e) => e.id == id))
+      if (id && collectionName && name && description && !records.find((e) => e.id == id))
         records.push({
           id,
           name,
           description,
+          collectionName,
           media: r["o:media"][0]
             ? await fetchMedia(r["o:media"][0]["@id"])
             : null,

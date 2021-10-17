@@ -18,30 +18,31 @@ const listImage = Math.round(width);
 const gridImage = Math.round(width / GRID_COLUMNS - 4);
 
 export const FeedItem = memo(
-  ({ id, name, media, description, century, dated }) => {
+  ({ id, name, media, description, century, dated, collectionName }) => {
     const { push } = useNavigation();
 
     return (
-      <Card key={id} style={styles.root} elevation={0}>
-        <Card.Title
-          subtitleNumberOfLines={3}
-          title={name}
-          subtitle={description}
-          style={styles.text}
-        />
-        <TouchableOpacity
-          testID="feed-item"
-          onPress={() =>
-            push("Details", {
-              id,
-              name,
-              media,
-              description,
-              century,
-              dated,
-            })
-          }
-        >
+      <TouchableOpacity
+        testID="feed-item"
+        onPress={() =>
+          push("Details", {
+            id,
+            name,
+            media,
+            description,
+            century,
+            dated,
+            collectionName
+          })
+        }
+      >
+        <Card key={id} style={styles.root} elevation={0}>
+          <Card.Title
+            subtitleNumberOfLines={3}
+            title={name}
+            subtitle={description}
+            style={styles.text}
+          />
           {media?.thumbnailUrl ? (
             <Card.Cover
               source={{
@@ -57,22 +58,23 @@ export const FeedItem = memo(
               style={styles.image}
             />
           )}
-        </TouchableOpacity>
-        <Card.Content>
-          <Caption>{century}</Caption>
-        </Card.Content>
-        <FavoriteFab
-          record={{
-            id,
-            name,
-            media,
-            description,
-            century,
-            dated,
-          }}
-          style={styles.fab}
-        />
-      </Card>
+
+          <Card.Content>
+            <Caption>{century}</Caption>
+          </Card.Content>
+          <FavoriteFab
+            record={{
+              id,
+              name,
+              media,
+              description,
+              century,
+              dated,
+            }}
+            style={styles.fab}
+          />
+        </Card>
+      </TouchableOpacity>
     );
   }
 );
