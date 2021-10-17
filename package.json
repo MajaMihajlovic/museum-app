@@ -24,6 +24,7 @@
     "react-native-screens": "^3.5.0",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.1.1",
+    "react-native-video": "5.1.1",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.4",
     "react-navigation-hooks": "^1.1.0",

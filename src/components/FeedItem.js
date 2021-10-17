@@ -43,10 +43,10 @@ export const FeedItem = memo(
             subtitle={description}
             style={styles.text}
           />
-          {media?.thumbnailUrl ? (
+          {media?.length > 0 && media[0].thumbnailUrl ? (
             <Card.Cover
               source={{
-                uri: `${media.thumbnailUrl}?height=${listImage}&width=${listImage}`,
+                uri: `${media[0].thumbnailUrl}?height=${listImage}&width=${listImage}`,
               }}
               resizeMode="contain"
               style={styles.image}
@@ -82,7 +82,7 @@ export const FeedItem = memo(
 FeedItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  media: PropTypes.object,
+  media: PropTypes.array,
   description: PropTypes.string,
   century: PropTypes.string,
   dated: PropTypes.string,
@@ -96,10 +96,10 @@ export const FeedItemGrid = memo(({ id, media, ...other }) => {
         testID="feed-item-grid"
         onPress={() => push("Details", { id, media, ...other })}
       >
-        {media?.thumbnailUrl ? (
+        {media?.length > 0 && media[0].thumbnailUrl ? (
           <Card.Cover
             source={{
-              uri: `${media?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
+              uri: `${media[0]?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
             }}
             resizeMode="contain"
             style={styles.imageGrid}

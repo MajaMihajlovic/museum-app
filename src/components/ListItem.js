@@ -16,7 +16,6 @@ const ListItem = memo(({ name, id, description, media,collectionName  }) => {
           testID="list-item"
           key={id}
           onPress={() => {
-            console.log(name)
             push("Details", {  name, id, description, media, collectionName });
           }}
         >

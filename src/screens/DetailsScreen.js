@@ -14,6 +14,8 @@ import useDetailsReducer from "../store/hooks/details";
 import Spinner from "../components/Spinner";
 import FavoriteFab from "../components/FavoriteFab";
 import Divider from "../components/Divider";
+import Swiper from "react-native-swiper";
+import Video from "react-native-video";
 
 const DetailsScreen = () => {
   const id = useNavigationParam("id");
@@ -23,16 +25,11 @@ const DetailsScreen = () => {
   const media = useNavigationParam("media");
 
   const getHeigth = async () => {
-    try {
-      let url = media["record"] != null
-      ? media["record"]["o:thumbnail_urls"]?.large
-      : media.thumbnailUrl;
+    if (media != []) {
+      let url = media[0]["record"]["o:thumbnail_urls"]?.large;
       await Image.getSize(url, (_, height) => {
         if (height) setHeight(height);
       });
-    } catch (e) {
-      console.log("unable to load image");
-      console.log(media);
     }
   };
   const width = Dimensions.get("window").width;
@@ -43,8 +40,8 @@ const DetailsScreen = () => {
   const { state, actions } = useDetailsReducer(id);
   useEffect(() => {
     actions.loadRecord();
-   
-    if (media?.thumbnailUrl) getHeigth();
+
+    if (media[0]?.thumbnailUrl) getHeigth();
   }, []);
 
   return (
@@ -63,34 +60,59 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            {media?.thumbnailUrl ? (
-              <View id={id}>
-                {/* <Swiper> */}
+            <Title style={{ padding: 16 }}>Media</Title>
 
-                <Image
-                  key={media}
-                  source={{
-                    uri:  media["record"] != null
-                    ? media["record"]["o:thumbnail_urls"]?.large
-                    : media.thumbnailUrl,
-                  }}
-                  style={{
-                    width: width,
-                    resizeMode: "contain",
-                    height: height > width ? width : height,
-                  }}
-                />
+            {media.length > 0 ? (
+              <Swiper height={width}>
+                {media.map((e, i) => (
+                  <View key={i}>
+                    {e["type"] == "image/jpeg" || e["type"] == undefined ? (
+                      <Image
+                        key={e["record"]["o:id"]}
+                        source={{
+                          uri:
+                            e["record"] != null
+                              ? e["record"]["o:thumbnail_urls"]?.large
+                              : e.thumbnailUrl,
+                        }}
+                        style={{
+                          width: width,
+                          resizeMode: "contain",
+                          height: width,
+                        }}
+                      />
+                    ) : // ) : e.type == "audio/x-wav" || e.type == "video/mp4" ? (
+                    //   <Video
+                    //     source={{
+                    //       uri:
+                    //         e["record"] != null
+                    //           ? e["record"]["original_url"]
+                    //           : null,
+                    //     }} // Can be a URL or a local file.
+                    //     // ref={(ref) => {
+                    //     //   this.player = ref;
+                    //     // }} // Store reference
+                    //     //  onBuffer={this.onBuffer} // Callback when remote video is buffering
+                    //     //  onError={this.videoError} // Callback when video cannot be loaded
+                    //     style={{
+                    //       width: width,
+                    //       height: width,
+                    //     }}
+                    //   />
+                    null}
 
-                <FavoriteFab
-                  record={{
-                    id,
-                    title,
-                    media,
-                    description,
-                  }}
-                  style={styles.fab}
-                />
-              </View>
+                    <FavoriteFab
+                      record={{
+                        id,
+                        title,
+                        media,
+                        description,
+                      }}
+                      style={styles.fab}
+                    />
+                  </View>
+                ))}
+              </Swiper>
             ) : null}
             <View style={styles.body}>
               <Title>ID</Title>

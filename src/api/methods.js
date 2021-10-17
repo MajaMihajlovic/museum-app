@@ -58,7 +58,7 @@ export async function doFetch(path, opt = {}, hints = {}) {
     return response;
   } catch (e) {
     if (!e.response) {
-      e.message = "Check connection.";
+      e.message = "Provjerite konekciju.";
     }
     throw e;
   }

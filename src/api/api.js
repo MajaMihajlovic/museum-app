@@ -18,8 +18,8 @@ export const processFeed = async (results, page) => {
           description,
           collectionName,
           media: r["o:media"][0]
-            ? await fetchMedia(r["o:media"][0]["@id"])
-            : null,
+            ? await fetchMedia(r["o:media"])
+            : [],
         });
     }
   }
@@ -81,10 +81,17 @@ export const fetchCollections = async (url = null) => {
   };
 };
 
-const fetchMedia = async (url) => {
-  const response = await GET(url);
-  return {
-    record: response,
-    thumbnailUrl: response["o:thumbnail_urls"]?.medium,
-  };
+const fetchMedia = async (media) => {
+  let response =[];
+  for(let e of media) {
+    let singleMedia = await GET(e["@id"]);
+    console.log(singleMedia["o:original_url"])
+    response.push({
+      record: singleMedia,
+      thumbnailUrl: singleMedia["o:thumbnail_urls"]?.medium,
+      type: singleMedia["o:item"]["o:media_type"]
+    })
+  }
+ return response;
 };
+
