@@ -24,7 +24,10 @@ const DetailsScreen = () => {
 
   const getHeigth = async () => {
     try {
-      await Image.getSize(mediaUrl, (_, height) => {
+      let url = media["record"] != null
+      ? media["record"]["o:thumbnail_urls"]?.large
+      : media.thumbnailUrl;
+      await Image.getSize(url, (_, height) => {
         if (height) setHeight(height);
       });
     } catch (e) {
@@ -36,17 +39,12 @@ const DetailsScreen = () => {
 
   const { goBack, push } = useNavigation();
   const [height, setHeight] = useState(false);
-  const [mediaUrl, setMediaUrl] = useState(null);
 
   const { state, actions } = useDetailsReducer(id);
   useEffect(() => {
     actions.loadRecord();
-    setMediaUrl(
-      media["record"] != null
-        ? media["record"]["o:thumbnail_urls"]?.large
-        : media.thumbnailUrl
-    );
-    if (mediaUrl) getHeigth();
+   
+    if (media?.thumbnailUrl) getHeigth();
   }, []);
 
   return (
@@ -72,7 +70,9 @@ const DetailsScreen = () => {
                 <Image
                   key={media}
                   source={{
-                    uri: mediaUrl,
+                    uri:  media["record"] != null
+                    ? media["record"]["o:thumbnail_urls"]?.large
+                    : media.thumbnailUrl,
                   }}
                   style={{
                     width: width,
