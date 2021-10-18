@@ -64,20 +64,22 @@ const CollectionDetailsScreen = () => {
       </Appbar.Header>
 
       <View style={styles.body}>
-        <Title>Naziv kolekcije</Title>
-        <Paragraph>{name}</Paragraph>
+        <Title style={{textAlign:"center"}}>Naziv kolekcije</Title>
+        <Paragraph style={{textAlign:"center"}}>{name}</Paragraph>
         <Divider />
         <CollapsibleView
-          title="Opis"
+          title={<Title>Opis</Title>}
+          titleStyle={styles.titleStyle}
           initExpanded={true}
-          noArrow={true}
-          titleStyle={{ textAlign: "left",color: "black" }}
-          style={{ textAlign: "right",color: "black", borderWidth: 0, backgroundColor: "white" }}
+          style={{
+            textAlign: "right",
+            color: "black",
+          }}
         >
           <Paragraph>{description ? description : "-"}</Paragraph>
         </CollapsibleView>
 
-        <Title>Skup unosa</Title>
+        <Title style={{textAlign:"center"}}>Skup unosa</Title>
       </View>
       <MemoizedList
         listKey={"regular"}
@@ -102,6 +104,11 @@ const styles = StyleSheet.create({
   body: {
     padding: 16,
   },
+  titleStyle:{
+    position:"absolute",
+  right: 0,
+  width: 300
+  }
 });
 
 export default CollectionDetailsScreen;

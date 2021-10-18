@@ -7,7 +7,7 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import { Appbar, Paragraph, Title } from "react-native-paper";
+import { Appbar, FAB, Paragraph, Title } from "react-native-paper";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
 
 import useDetailsReducer from "../store/hooks/details";
@@ -23,6 +23,7 @@ const DetailsScreen = () => {
   const description = useNavigationParam("description");
   const collectionName = useNavigationParam("collectionName");
   const media = useNavigationParam("media");
+  const [expand, setExpand] = useState(false);
 
   const getHeigth = async () => {
     if (media != []) {
@@ -60,8 +61,6 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            <Title style={{ padding: 16 }}>Media</Title>
-
             {media.length > 0 ? (
               <Swiper height={width}>
                 {media.map((e, i) => (
@@ -77,11 +76,13 @@ const DetailsScreen = () => {
                         }}
                         style={{
                           width: width,
-                          resizeMode: "contain",
+                          resizeMode: expand ? "contain" : "cover",
                           height: width,
                         }}
+                        defaultSource={require("./../../assets/defaultImg.png")}
                       />
-                    ) : // ) : e.type == "audio/x-wav" || e.type == "video/mp4" ? (
+                    ) : // </ImageBackground>
+                    // ) : e.type == "audio/x-wav" || e.type == "video/mp4" ? (
                     //   <Video
                     //     source={{
                     //       uri:
@@ -101,6 +102,14 @@ const DetailsScreen = () => {
                     //   />
                     null}
 
+                    <FAB
+                      testID="expand"
+                      icon={expand ? "arrow-expand-all" : "arrow-collapse-all"}
+                      onPress={() =>
+                        expand ? setExpand(false) : setExpand(true)
+                      }
+                      style={styles.expandIcon}
+                    />
                     <FavoriteFab
                       record={{
                         id,
@@ -150,6 +159,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    paddingTop: 0,
     backgroundColor: "white",
   },
   body: {
@@ -160,6 +170,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     right: 0,
+    bottom: 0,
+  },
+  expandIcon: {
+    position: "absolute",
+    margin: 16,
+    right: 70,
     bottom: 0,
   },
   link: {

@@ -32,7 +32,7 @@ export const FeedItem = memo(
             description,
             century,
             dated,
-            collectionName
+            collectionName,
           })
         }
       >
@@ -70,6 +70,7 @@ export const FeedItem = memo(
               description,
               century,
               dated,
+              collectionName
             }}
             style={styles.fab}
           />
@@ -82,43 +83,62 @@ export const FeedItem = memo(
 FeedItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  media: PropTypes.array,
+ // media: PropTypes.object,
   description: PropTypes.string,
   century: PropTypes.string,
   dated: PropTypes.string,
 };
 
-export const FeedItemGrid = memo(({ id, media, ...other }) => {
-  const { push } = useNavigation();
-  return (
-    <Card key={id} style={styles.grid} elevation={0}>
-      <TouchableOpacity
-        testID="feed-item-grid"
-        onPress={() => push("Details", { id, media, ...other })}
-      >
-        {media?.length > 0 && media[0].thumbnailUrl ? (
-          <Card.Cover
-            source={{
-              uri: `${media[0]?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
+export const FeedItemGrid = memo(
+  ({ id, name, media, description, century, dated, collectionName }) => {
+    const { push } = useNavigation();
+    return (
+      <Card key={id} style={styles.grid} elevation={0}>
+        <TouchableOpacity
+          testID="feed-item-grid"
+          onPress={() =>
+            push("Details", {
+              id,
+              name,
+              media,
+              description,
+              century,
+              dated,
+              collectionName,
+            })
+          }
+        >
+          <Card.Title
+            title={name}
+            titleStyle={{
+              textAlign: "center",
+              marginLeft: -15,
             }}
-            resizeMode="contain"
-            style={styles.imageGrid}
           />
-        ) : (
-          <Card.Cover
-            source={require("./../../assets/defaultImg.png")}
-            resizeMode="contain"
-            style={styles.imageGrid}
-          />
-        )}
-      </TouchableOpacity>
-    </Card>
-  );
-});
+          {media?.length > 0 && media[0].thumbnailUrl ? (
+            <Card.Cover
+              source={{
+                uri: `${media[0]?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
+              }}
+              resizeMode="contain"
+              style={styles.imageGrid}
+            />
+          ) : (
+            <Card.Cover
+              source={require("./../../assets/defaultImg.png")}
+              resizeMode="contain"
+              style={styles.imageGrid}
+            />
+          )}
+        </TouchableOpacity>
+      </Card>
+    );
+  }
+);
 
 FeedItemGrid.propTypes = {
   id: PropTypes.string,
-  media: PropTypes.object,
+ // media: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
