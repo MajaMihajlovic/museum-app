@@ -65,25 +65,38 @@ const DetailsScreen = () => {
               <Swiper height={width}>
                 {media.map((e, i) => (
                   <View key={i}>
-                    {e.type?.includes("image") || e.type == undefined ? (
-                      <Image
-                        key={e["record"]["o:id"]}
-                        source={{
-                          uri:
-                            e["record"] != null
-                              ? e["record"]["o:thumbnail_urls"]?.large
-                              : e.thumbnailUrl,
-                        }}
-                        style={{
-                          width: width,
-                          resizeMode: expand ? "contain" : "cover",
-                          height: width,
-                        }}
-                        defaultSource={require("./../../assets/defaultImg.png")}
-                      />
+                    {e.type?.includes("image") || e.type?.includes("application") ? (
+                      <>
+                        <Image
+                          key={e["record"]["o:id"]}
+                          source={{
+                            uri:
+                              e["record"] != null
+                                ? e["record"]["o:thumbnail_urls"]?.large
+                                : e.thumbnailUrl,
+                          }}
+                          style={{
+                            width: width,
+                            resizeMode: expand ? "cover" : "contain",
+                            height: width,
+                          }}
+                          defaultSource={require("./../../assets/defaultImg.png")}
+                        />
+                        <FAB
+                          testID="expand"
+                          icon={
+                            expand ? "arrow-expand-all" : "arrow-collapse-all"
+                          }
+                          onPress={() =>
+                            expand ? setExpand(false) : setExpand(true)
+                          }
+                          style={styles.expandIcon}
+                        />
+                      </>
                     ) : e.type?.includes("audio") ||
                       e.type?.includes("video") ? (
                       <Video
+                        useNativeControls
                         source={{
                           uri:
                             e["record"] != null
@@ -92,7 +105,7 @@ const DetailsScreen = () => {
                         }}
                         style={{
                           width: width,
-                          height: width,
+                          height: 100
                         }}
                         rate={1.0}
                         volume={1.0}
@@ -103,14 +116,6 @@ const DetailsScreen = () => {
                       />
                     ) : null}
 
-                    <FAB
-                      testID="expand"
-                      icon={expand ? "arrow-expand-all" : "arrow-collapse-all"}
-                      onPress={() =>
-                        expand ? setExpand(false) : setExpand(true)
-                      }
-                      style={styles.expandIcon}
-                    />
                     <FavoriteFab
                       record={{
                         id,
