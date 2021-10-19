@@ -85,7 +85,8 @@ const fetchMedia = async (media) => {
   let response =[];
   for(let e of media) {
     let singleMedia = await GET(e["@id"]);
-    console.log(singleMedia["o:media_type"])
+    if(singleMedia["o:media_type"] == null)
+    console.log(singleMedia)
     response.push({
       record: singleMedia,
       thumbnailUrl: singleMedia["o:thumbnail_urls"]?.medium,

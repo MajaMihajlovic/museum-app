@@ -25,24 +25,13 @@ const DetailsScreen = () => {
   const media = useNavigationParam("media");
   const [expand, setExpand] = useState(false);
 
-  const getHeigth = async () => {
-    if (media != []) {
-      let url = media[0]["record"]["o:thumbnail_urls"]?.large;
-      await Image.getSize(url, (_, height) => {
-        if (height) setHeight(height);
-      });
-    }
-  };
   const width = Dimensions.get("window").width;
 
   const { goBack, push } = useNavigation();
-  const [height, setHeight] = useState(false);
 
   const { state, actions } = useDetailsReducer(id);
   useEffect(() => {
     actions.loadRecord();
-
-    if (media[0]?.thumbnailUrl) getHeigth();
   }, []);
 
   return (
@@ -62,10 +51,11 @@ const DetailsScreen = () => {
         ) : (
           <React.Fragment>
             {media.length > 0 ? (
-              <Swiper height={width}>
+              <Swiper height="100%">
                 {media.map((e, i) => (
                   <View key={i}>
-                    {e.type?.includes("image") || e.type?.includes("application") ? (
+                    {e.type?.includes("image") ||
+                    e.type?.includes("application") ? (
                       <>
                         <Image
                           key={e["record"]["o:id"]}
@@ -105,8 +95,9 @@ const DetailsScreen = () => {
                         }}
                         style={{
                           width: width,
-                          height: 100
+                          height: e.type?.includes("audio")? 100:width,
                         }}
+                        resizeMode="contain"
                         rate={1.0}
                         volume={1.0}
                         isMuted={false}

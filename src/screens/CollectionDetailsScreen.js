@@ -16,22 +16,6 @@ const getItemLayout = (data, index) => {
   };
 };
 
-const areEqual = (prev, next) => {
-  if (
-    prev.listKey === next.listKey &&
-    prev.data.length === next.data.length &&
-    prev.ListFooterComponent === next.ListFooterComponent &&
-    prev.onEndReached === next.onEndReached
-  )
-    return true;
-  return false;
-};
-
-const MemoizedList = memo(
-  ({ listKey, ...props }) => <FlatList key={listKey} {...props} />,
-  areEqual
-);
-
 const CollectionDetailsScreen = () => {
   const { push, goBack } = useNavigation();
   const name = useNavigationParam("name");
@@ -64,32 +48,26 @@ const CollectionDetailsScreen = () => {
       </Appbar.Header>
 
       <View style={styles.body}>
-        <Title style={{textAlign:"center"}}>Naziv kolekcije</Title>
-        <Paragraph style={{textAlign:"center"}}>{name}</Paragraph>
+        <Title style={styles.align}>Naziv kolekcije</Title>
+        <Paragraph style={styles.align}>{name}</Paragraph>
         <Divider />
         <CollapsibleView
           title={<Title>Opis</Title>}
-          titleStyle={styles.titleStyle}
           initExpanded={true}
-          style={{
-            textAlign: "right",
-            color: "black",
-          }}
+          style={{ borderWidth: 0, textAlign: "center" }}
         >
           <Paragraph>{description ? description : "-"}</Paragraph>
         </CollapsibleView>
 
-        <Title style={{textAlign:"center"}}>Skup unosa</Title>
+        <Title style={styles.align}>Skup unosa</Title>
       </View>
-      <MemoizedList
-        listKey={"regular"}
+      <FlatList
         data={state.records}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        //keyExtractor={(item, index) => index}
         getItemLayout={getItemLayout}
         maxToRenderPerBatch={20}
         initialNumToRender={20}
-        onEndReached={actions.onEndReached}
         ListFooterComponent={renderListFooter}
       />
     </View>
@@ -104,11 +82,14 @@ const styles = StyleSheet.create({
   body: {
     padding: 16,
   },
-  titleStyle:{
-    position:"absolute",
-  right: 0,
-  width: 300
-  }
+  align: {
+    textAlign: "center",
+  },
+  titleStyle: {
+    position: "absolute",
+    right: 0,
+    width: 300,
+  },
 });
 
 export default CollectionDetailsScreen;
