@@ -15,7 +15,7 @@ import Spinner from "../components/Spinner";
 import FavoriteFab from "../components/FavoriteFab";
 import Divider from "../components/Divider";
 import Swiper from "react-native-swiper";
-import Video from "react-native-video";
+import { Video } from "expo-av";
 
 const DetailsScreen = () => {
   const id = useNavigationParam("id");
@@ -65,7 +65,7 @@ const DetailsScreen = () => {
               <Swiper height={width}>
                 {media.map((e, i) => (
                   <View key={i}>
-                    {e["type"] == "image/jpeg" || e["type"] == undefined ? (
+                    {e.type?.includes("image") || e.type == undefined ? (
                       <Image
                         key={e["record"]["o:id"]}
                         source={{
@@ -81,26 +81,27 @@ const DetailsScreen = () => {
                         }}
                         defaultSource={require("./../../assets/defaultImg.png")}
                       />
-                    ) : // </ImageBackground>
-                    // ) : e.type == "audio/x-wav" || e.type == "video/mp4" ? (
-                    //   <Video
-                    //     source={{
-                    //       uri:
-                    //         e["record"] != null
-                    //           ? e["record"]["original_url"]
-                    //           : null,
-                    //     }} // Can be a URL or a local file.
-                    //     // ref={(ref) => {
-                    //     //   this.player = ref;
-                    //     // }} // Store reference
-                    //     //  onBuffer={this.onBuffer} // Callback when remote video is buffering
-                    //     //  onError={this.videoError} // Callback when video cannot be loaded
-                    //     style={{
-                    //       width: width,
-                    //       height: width,
-                    //     }}
-                    //   />
-                    null}
+                    ) : e.type?.includes("audio") ||
+                      e.type?.includes("video") ? (
+                      <Video
+                        source={{
+                          uri:
+                            e["record"] != null
+                              ? e["record"]["o:original_url"]
+                              : null,
+                        }}
+                        style={{
+                          width: width,
+                          height: width,
+                        }}
+                        rate={1.0}
+                        volume={1.0}
+                        isMuted={false}
+                        resizeMode="cover"
+                        shouldPlay
+                        isLooping
+                      />
+                    ) : null}
 
                     <FAB
                       testID="expand"

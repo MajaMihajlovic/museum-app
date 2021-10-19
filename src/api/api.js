@@ -7,7 +7,7 @@ export const processFeed = async (results, page) => {
     if (r != undefined) {
       let id = r["o:id"].toString();
       let name = r["dcterms:title"][0]["@value"];
-      let collectionName=r["rs:collectionName"][0]["@value"];
+      let collectionName=r["rs:collectionName"]? r["rs:collectionName"][0]["@value"]:null;
       let description = r["dcterms:description"]
         ? r["dcterms:description"][0]["@value"]
         : null;
@@ -85,11 +85,11 @@ const fetchMedia = async (media) => {
   let response =[];
   for(let e of media) {
     let singleMedia = await GET(e["@id"]);
-    console.log(singleMedia["o:original_url"])
+    console.log(singleMedia["o:media_type"])
     response.push({
       record: singleMedia,
       thumbnailUrl: singleMedia["o:thumbnail_urls"]?.medium,
-      type: singleMedia["o:item"]["o:media_type"]
+      type: singleMedia["o:media_type"]
     })
   }
  return response;
