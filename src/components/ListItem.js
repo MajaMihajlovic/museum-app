@@ -6,7 +6,7 @@ import { useNavigation } from "react-navigation-hooks";
 
 export const LIST_ITEM_HEIGHT = 48;
 
-// ListItem used in Search Tab
+// ListItem used in Collection Tab
 
 const ListItem = memo(({ name, id, description, media,collectionName  }) => {
   const { push } = useNavigation();

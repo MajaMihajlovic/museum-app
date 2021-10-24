@@ -1,4 +1,8 @@
-import { fetchFeed, fetchCollections, loadCollectionItems } from "../../api/api";
+import {
+  fetchFeed,
+  fetchCollections,
+  loadCollectionItems,
+} from "../../api/api";
 
 // action types
 
@@ -15,10 +19,8 @@ export const FETCH_COLLECTIONS__SENT = "FETCH_COLLECTIONS__SENT";
 export const FETCH_COLLECTIONS__FULFILLED = "FETCH_COLLECTIONS__FULFILLED";
 export const FETCH_COLLECTIONS__REJECTED = "FETCH_COLLECTIONS__REJECTED";
 
-// action creators
-
 export const loadListOf =
-  (target, url = null, desc = false, search = false) =>
+  (target, search = false) =>
   async (dispatch) => {
     dispatch({ type: FETCH_TARGET__SENT });
     try {
@@ -63,7 +65,7 @@ export const search =
 
 export const resetSearch = () => ({ type: FILTER_RECORDS__RESET });
 
-export const loadCollections = (extra, next) => async (dispatch) => {
+export const loadCollections = () => async (dispatch) => {
   dispatch({ type: FETCH_COLLECTIONS__SENT });
   try {
     const results = await fetchCollections();

@@ -10,18 +10,18 @@ import FeedScreen from "../screens/FeedScreen";
 const MainStack = createStackNavigator(
   {
     Main: {
-      screen: MainTabNavigator
+      screen: MainTabNavigator,
     },
     Details: DetailsScreen,
     CollectionDetails: CollectionDetailsScreen,
-    Feed: FeedScreen
+    Feed: FeedScreen,
   },
   {
     initialRouteName: "Main",
     defaultNavigationOptions: {
       gestureEnabled: true,
-      headerShown: false
-    }
+      headerShown: false,
+    },
   }
 );
 

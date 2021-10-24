@@ -1,7 +1,5 @@
 import { fetchFeed } from "../../api/api";
 
-// action types
-
 export const FETCH_FEED__SENT = "FETCH_FEED__SENT";
 export const FETCH_FEED__FULFILLED = "FETCH_FEED__FULFILLED";
 export const FETCH_FEED__REJECTED = "FETCH_FEED__REJECTED";
@@ -15,17 +13,15 @@ export const FILTER_RECORDS__FULFILLED = "FILTER_RECORDS__FULFILLED";
 export const FILTER_RECORDS__REJECTED = "FILTER_RECORDS__REJECTED";
 export const FILTER_RECORDS__RESET = "FILTER_RECORDS__RESET";
 
-// action creators
-
-export const refreshFeed = (filter, page) => async dispatch => {
+export const refreshFeed = (filter, page) => async (dispatch) => {
   dispatch({ type: REFRESH_FEED__SENT });
   try {
     const results = await fetchFeed(null, page, filter);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {
-        ...results
-      }
+        ...results,
+      },
     });
   } catch (err) {
     dispatch({ type: FETCH_FEED__REJECTED, payload: err.message });
@@ -34,11 +30,10 @@ export const refreshFeed = (filter, page) => async dispatch => {
 
 export const toggleFeedView = () => ({ type: TOGGLE_FEED_VIEW });
 
-export const setVisibleIndex = index => ({
+export const setVisibleIndex = (index) => ({
   type: SET_VISIBLE_INDEX,
-  payload: index
+  payload: index,
 });
-
 
 export const apiSearch = (target) => async (dispatch) => {
   dispatch({ type: FILTER_RECORDS__SENT });
@@ -67,16 +62,18 @@ export const search =
   };
 
 export const resetSearch = () => ({ type: FILTER_RECORDS__RESET });
-export const loadFeed = (extra, page) => async dispatch => {
+export const loadFeed = (extra, page) => async (dispatch) => {
   dispatch({ type: FETCH_FEED__SENT });
- 
+
   try {
-    const results = page ? await fetchFeed(null, page) : await fetchFeed(null, 1, extra);
+    const results = page
+      ? await fetchFeed(null, page)
+      : await fetchFeed(null, 1, extra);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {
-        ...results
-      }
+        ...results,
+      },
     });
   } catch (err) {
     dispatch({ type: FETCH_FEED__REJECTED, payload: err.message });

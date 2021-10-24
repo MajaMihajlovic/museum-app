@@ -6,11 +6,7 @@ import { Card, Caption } from "react-native-paper";
 
 import FavoriteFab from "./FavoriteFab";
 
-// height of Card Title + Card Content
-// used on getItemLayout of FlatList
 export const CARD_OFFSET = 139;
-
-// Columns on grid view
 export const GRID_COLUMNS = 2;
 
 const width = Dimensions.get("window").width;
@@ -70,7 +66,7 @@ export const FeedItem = memo(
               description,
               century,
               dated,
-              collectionName
+              collectionName,
             }}
             style={styles.fab}
           />
@@ -83,7 +79,7 @@ export const FeedItem = memo(
 FeedItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
- // media: PropTypes.object,
+  // media: PropTypes.object,
   description: PropTypes.string,
   century: PropTypes.string,
   dated: PropTypes.string,
@@ -138,7 +134,7 @@ export const FeedItemGrid = memo(
 
 FeedItemGrid.propTypes = {
   id: PropTypes.string,
- // media: PropTypes.object,
+  // media: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

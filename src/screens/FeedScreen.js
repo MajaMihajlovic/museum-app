@@ -7,7 +7,7 @@ import useFeedReducer from "../store/hooks/feed";
 import SearchBar from "../components/SearchBar";
 import FlatListBase from "../components/FlatListBase";
 import ListFooter from "../components/ListFooter";
-import EmptyList from "../components/EmptyList";;
+import EmptyList from "../components/EmptyList";
 
 const FeedScreen = () => {
   const title = useNavigationParam("title") || "Katalog";
@@ -54,49 +54,45 @@ const FeedScreen = () => {
       ) : (
         <Appbar.Header>
           <Appbar.Content title={title} subtitle={subtitle} />
+          <Appbar.Action icon={"magnify"} onPress={() => setShowSearch(true)} />
           <Appbar.Action
-            icon={"magnify"}
-            onPress={() =>setShowSearch(true)}
+            disabled={state.loading || state.refreshing}
+            icon={state.grid ? "view-agenda" : "view-grid"}
+            onPress={actions.toggleFeedView}
           />
-           <Appbar.Action
-          disabled={state.loading || state.refreshing}
-          icon={state.grid ? "view-agenda" : "view-grid"}
-          onPress={actions.toggleFeedView}
-        />
         </Appbar.Header>
       )}
 
-{!showSearch ? (
-      <FlatListBase
-        listKey={`${state.grid ? "g" : "l"}`}
-        setVisibleIndex={actions.setVisibleIndex}
-        visibleIndex={state.visibleIndex}
-        grid={state.grid}
-        records={state.records}
-        onEndReached={actions.onEndReached}
-        //onEndReachedThreshold={0.01}
-        onRefresh={() => actions.refreshFeed()}
-        refreshing={state.refreshing}
-        ListFooterComponent={ListFooterComponent}
-        ListEmptyComponent={EmptyListComponent}
-      />
+      {!showSearch ? (
+        <FlatListBase
+          listKey={`${state.grid ? "g" : "l"}`}
+          setVisibleIndex={actions.setVisibleIndex}
+          visibleIndex={state.visibleIndex}
+          grid={state.grid}
+          records={state.records}
+          onEndReached={actions.onEndReached}
+          //onEndReachedThreshold={0.01}
+          onRefresh={() => actions.refreshFeed()}
+          refreshing={state.refreshing}
+          ListFooterComponent={ListFooterComponent}
+          ListEmptyComponent={EmptyListComponent}
+        />
       ) : (
         <FlatListBase
-        listKey={`${state.grid ? "g" : "l"}`}
-        setVisibleIndex={actions.setVisibleIndex}
-        visibleIndex={state.visibleIndex}
-        grid={state.grid}
-        records={state.filteredRecords}
-        onEndReached={actions.onEndReachedSearch}
-        //onEndReachedThreshold={0.01}
-        onRefresh={() => actions.refreshFeed()}
-        refreshing={state.refreshing}
-        ListFooterComponent={ListFooterComponent}
-        ListEmptyComponent={EmptyListComponent}
-      />
-        )}
+          listKey={`${state.grid ? "g" : "l"}`}
+          setVisibleIndex={actions.setVisibleIndex}
+          visibleIndex={state.visibleIndex}
+          grid={state.grid}
+          records={state.filteredRecords}
+          onEndReached={actions.onEndReachedSearch}
+          //onEndReachedThreshold={0.01}
+          onRefresh={() => actions.refreshFeed()}
+          refreshing={state.refreshing}
+          ListFooterComponent={ListFooterComponent}
+          ListEmptyComponent={EmptyListComponent}
+        />
+      )}
     </View>
-    
   );
 };
 

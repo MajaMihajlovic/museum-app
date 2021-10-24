@@ -4,7 +4,9 @@ import {
   loadFeed,
   toggleFeedView,
   setVisibleIndex,
-  refreshFeed,search, resetSearch
+  refreshFeed,
+  search,
+  resetSearch,
 } from "../actions/feed";
 import reducer, { feedInitialState } from "../reducers/feed";
 
@@ -33,7 +35,8 @@ export default function useFeedReducer(filter) {
     (page) => dispatch(loadFeed(filter, page)),
     [filter]
   );
-  const _refreshFeed = useCallback(() => dispatch(refreshFeed(filter)),
+  const _refreshFeed = useCallback(
+    () => dispatch(refreshFeed(filter)),
     [filter]
   );
   const _toggleFeedView = useCallback(() => dispatch(toggleFeedView()), []);
@@ -49,7 +52,7 @@ export default function useFeedReducer(filter) {
     }
   }, []);
 
-  const onSubmitSearch = text => {
+  const onSubmitSearch = (text) => {
     dispatch(resetSearch());
     dispatch(search(text));
   };
@@ -68,7 +71,7 @@ export default function useFeedReducer(filter) {
       setVisibleIndex: _setVisibleIndex,
       onEndReached: _onEndReached,
       onSubmitSearch,
-      onEndReachedSearch
+      onEndReachedSearch,
     },
   };
 }

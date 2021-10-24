@@ -23,13 +23,12 @@ const DetailsScreen = () => {
   const description = useNavigationParam("description");
   const collectionName = useNavigationParam("collectionName");
   const media = useNavigationParam("media");
+
   const [expand, setExpand] = useState(false);
-
   const width = Dimensions.get("window").width;
-
   const { goBack, push } = useNavigation();
-
   const { state, actions } = useDetailsReducer(id);
+
   useEffect(() => {
     actions.loadRecord();
   }, []);
@@ -53,7 +52,7 @@ const DetailsScreen = () => {
             {media.length > 0 ? (
               <Swiper height="100%">
                 {media.map((e, i) => (
-                  <View key={i}>
+                  <View key={i.toString()} style={{ height: 255 }}>
                     {e.type?.includes("image") ||
                     e.type?.includes("application") ? (
                       <>
@@ -68,7 +67,7 @@ const DetailsScreen = () => {
                           style={{
                             width: width,
                             resizeMode: expand ? "cover" : "contain",
-                            height: width,
+                            flex: 1,
                           }}
                           defaultSource={require("./../../assets/defaultImg.png")}
                         />
@@ -95,8 +94,10 @@ const DetailsScreen = () => {
                         }}
                         style={{
                           width: width,
-                          height: e.type?.includes("audio")? 100:width,
+                          flex: 1,
                         }}
+                        usePoster
+                        posterSource={require("./../../assets/nodeDefault.png")}
                         resizeMode="contain"
                         rate={1.0}
                         volume={1.0}
@@ -111,6 +112,7 @@ const DetailsScreen = () => {
                       record={{
                         id,
                         title,
+                        collectionName,
                         media,
                         description,
                       }}

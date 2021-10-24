@@ -10,9 +10,7 @@ export default function useCollectionsReducer(target) {
 
   const onLoad = () => dispatch(loadCollections());
 
-  const onEndReached = () =>
-    state.page && dispatch(loadListOf(target, state.page));
-
+  const onEndReached = () => dispatch(loadListOf(target));
 
   return {
     state,
@@ -20,6 +18,6 @@ export default function useCollectionsReducer(target) {
       loadList,
       onLoad,
       onEndReached,
-    }
+    },
   };
 }

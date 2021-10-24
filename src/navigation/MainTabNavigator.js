@@ -9,12 +9,12 @@ import FavoritesScreen from "../screens/FavoritesScreen";
 import AboutScreen from "../screens/AboutScreen";
 import theme from "../util/theme";
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     style={styles.tabBar}
     indicatorStyle={styles.indicator}
-    renderIcon={props => <TabBarIcon {...props} />}
+    renderIcon={(props) => <TabBarIcon {...props} />}
   />
 );
 
@@ -33,15 +33,15 @@ const renderScene = ({ route }) => {
   }
 };
 
-const MainTabNavigator = props => {
+const MainTabNavigator = (props) => {
   const [state, setState] = useState({
     index: 0,
     routes: [
       { key: "feed", icon: "ios-home" },
       { key: "collections", icon: "ios-search" },
       { key: "favorites", icon: "ios-heart" },
-      { key: "about", icon: "ellipsis-horizontal-outline" }
-    ]
+      { key: "about", icon: "ellipsis-horizontal-outline" },
+    ],
   });
 
   return (
@@ -50,7 +50,7 @@ const MainTabNavigator = props => {
       navigationState={state}
       renderTabBar={renderTabBar}
       renderScene={renderScene}
-      onIndexChange={index => setState({ ...state, index })}
+      onIndexChange={(index) => setState({ ...state, index })}
       initialLayout={{ width: Dimensions.get("window").width }}
       sceneContainerStyle={styles.scene}
     />
@@ -59,16 +59,16 @@ const MainTabNavigator = props => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: theme.colors.primary
+    backgroundColor: theme.colors.primary,
   },
   indicator: {
     top: 0,
     backgroundColor: theme.colors.secondary,
-    height: 3
+    height: 3,
   },
   scene: {
-    backgroundColor: theme.colors.primary
-  }
+    backgroundColor: theme.colors.primary,
+  },
 });
 
 export default MainTabNavigator;

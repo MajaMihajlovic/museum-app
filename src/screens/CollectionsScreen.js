@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Appbar, Surface, Title, TouchableRipple } from "react-native-paper";
-import { useNavigation, useNavigationParam } from "react-navigation-hooks";
+import { useNavigation } from "react-navigation-hooks";
 import Spinner from "../components/Spinner";
-import { FETCH_TARGET__REJECTED } from "../store/actions/collections";
 import useCollectionsReducer from "../store/hooks/collections";
 
 const CollectionsScreen = () => {

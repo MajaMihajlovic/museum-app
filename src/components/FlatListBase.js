@@ -6,13 +6,13 @@ import {
   FeedItem,
   FeedItemGrid,
   CARD_OFFSET,
-  GRID_COLUMNS
+  GRID_COLUMNS,
 } from "../components/FeedItem";
 
 const width = Dimensions.get("window").width;
 
 const viewabilityConfig = {
-  itemVisiblePercentThreshold: 95
+  itemVisiblePercentThreshold: 95,
 };
 
 function areEqual(p, n) {
@@ -33,15 +33,15 @@ const getItemLayoutGrid = (data, index) => {
   return {
     length: height,
     offset: height * index,
-    index
+    index,
   };
 };
 const getItemLayout = (data, index) => {
-  const height = (width/2) + CARD_OFFSET;
+  const height = width / 2 + CARD_OFFSET;
   return {
     length: height,
     offset: height * index,
-    index
+    index,
   };
 };
 
@@ -57,7 +57,7 @@ const FlatListBase = memo(
         data={records}
         numColumns={GRID_COLUMNS}
         renderItem={renderItemGrid}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         //onViewableItemsChanged={setVisibleIndex}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayoutGrid}
@@ -72,7 +72,7 @@ const FlatListBase = memo(
         data={records}
         numColumns={1}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         //onViewableItemsChanged={setVisibleIndex}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={getItemLayout}
@@ -87,7 +87,7 @@ const FlatListBase = memo(
 
 FlatListBase.defaultProps = {
   setVisibleIndex: () => {},
-  visibleIndex: 0
+  visibleIndex: 0,
 };
 
 FlatListBase.propTypes = {
