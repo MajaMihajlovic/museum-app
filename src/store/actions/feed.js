@@ -13,10 +13,11 @@ export const FILTER_RECORDS__FULFILLED = "FILTER_RECORDS__FULFILLED";
 export const FILTER_RECORDS__REJECTED = "FILTER_RECORDS__REJECTED";
 export const FILTER_RECORDS__RESET = "FILTER_RECORDS__RESET";
 
-export const refreshFeed = (filter, page) => async (dispatch) => {
+export const refreshFeed = (filter, page, propertyId = null) => async (dispatch) => {
   dispatch({ type: REFRESH_FEED__SENT });
   try {
-    const results = await fetchFeed(null, page, filter);
+    console.log("refresh" + page+filter+propertyId)
+    const results = await fetchFeed(null, page, filter, propertyId);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {
@@ -35,10 +36,10 @@ export const setVisibleIndex = (index) => ({
   payload: index,
 });
 
-export const apiSearch = (target) => async (dispatch) => {
+export const apiSearch = (target, propertyId = null) => async (dispatch) => {
   dispatch({ type: FILTER_RECORDS__SENT });
   try {
-    const results = await fetchFeed(null, null, target);
+    const results = await fetchFeed(null, null, target, propertyId);
     if (results.records.length === 0) {
       dispatch({
         type: FILTER_RECORDS__REJECTED,
@@ -62,13 +63,13 @@ export const search =
   };
 
 export const resetSearch = () => ({ type: FILTER_RECORDS__RESET });
-export const loadFeed = (extra, page) => async (dispatch) => {
+export const loadFeed = (extra, page, propertyId) => async (dispatch) => {
   dispatch({ type: FETCH_FEED__SENT });
 
   try {
     const results = page
-      ? await fetchFeed(null, page)
-      : await fetchFeed(null, 1, extra);
+      ? await fetchFeed(null, page, extra, propertyId)
+      : await fetchFeed(null, 1, extra, propertyId);
     dispatch({
       type: FETCH_FEED__FULFILLED,
       payload: {

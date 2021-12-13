@@ -8,7 +8,6 @@ import {
 export const detailsInitialState = {
   loading: true,
   record: {
-    images: [],
     url: "",
   },
   error: null,

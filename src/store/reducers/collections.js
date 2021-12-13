@@ -15,11 +15,9 @@ import {
 export const initialState = {
   loading: false,
   refreshing: false,
-  desc: false,
   records: [],
   error: null,
   totalRecords: undefined,
-  next: "",
   target: "",
   search: "",
   filteredRecords: [],
@@ -43,7 +41,6 @@ const collectionsReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         target,
-        desc,
       };
 
     case FETCH_TARGET__REJECTED:
@@ -57,7 +54,6 @@ const collectionsReducer = (state = initialState, action) => {
       return { ...state, loadingCollections: true };
 
     case FETCH_COLLECTIONS__FULFILLED:
-      //const {  records } = action.payload;
       return {
         ...state,
         collections: action.payload.records,
@@ -87,7 +83,7 @@ const collectionsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        filteredRecords: [ ...action.payload.records],
+        filteredRecords: [...action.payload.records],
         nextSearchUrl: action.payload.info.page,
       };
 

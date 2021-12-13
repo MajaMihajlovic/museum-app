@@ -13,9 +13,11 @@ const FeedScreen = () => {
   const title = useNavigationParam("title") || "Katalog";
   const subtitle = useNavigationParam("subtitle");
   const filter = useNavigationParam("filter");
+  const propertyId = useNavigationParam("propertyId");
+
   const { goBack } = useNavigation();
 
-  const { state, actions } = useFeedReducer(filter);
+  const { state, actions } = useFeedReducer(filter, propertyId);
 
   useEffect(() => {
     actions.loadFeed();

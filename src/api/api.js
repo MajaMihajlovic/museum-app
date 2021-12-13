@@ -37,24 +37,22 @@ export const processFeed = async (results, page) => {
   return processed;
 };
 
-export const fetchFeed = async (url = null, page = 1, search) => {
+export const fetchFeed = async (url = null, page = 1, search, id = null) => {
+  console.log("fetchFreed:"+url+page+search+id)
   let fullUrl = url ? url : `items?page=${page}&per_page=10`;
   if (search) {
     let query = encodeURIComponent(search);
-    fullUrl = `items?search=${query}`;
+    fullUrl = id ?  `items?search=&[property]=${id}&[type]=eq&[text]=${query}` :`items?search=${query}`;
+  console.log(fullUrl)
   }
   const results = await GET(fullUrl);
   return await processFeed(results, page);
 };
 
-export const processRecordImages = (images) =>
-  images.map((image) => image.baseimageurl);
-
 export const processRecord = (record) => {
   const properties = parseOmekaApi(record);
   const processed = {
     ...record,
-    images: record.images ? processRecordImages(record) : [],
     properties,
   };
   return processed;
@@ -87,11 +85,12 @@ export const fetchCollections = async (url = null) => {
   };
 };
 
+
+// TODO: fetch single and all media
 const fetchMedia = async (media) => {
   let response = [];
   for (let e of media) {
     let singleMedia = await GET(e["@id"]);
-    //if (singleMedia["o:media_type"] == null) console.log(singleMedia);
     response.push({
       record: singleMedia,
       thumbnailUrl: singleMedia["o:thumbnail_urls"]?.medium,

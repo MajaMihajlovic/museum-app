@@ -25,14 +25,14 @@ const setVisibleIndexFactory =
     }
   };
 
-export default function useFeedReducer(filter) {
+export default function useFeedReducer(filter, propertyId) {
   const [state, dispatch] = useCancelableThunkReducer(
     reducer,
     feedInitialState
   );
 
   const _loadFeed = useCallback(
-    (page) => dispatch(loadFeed(filter, page)),
+    (page) => dispatch(loadFeed(filter, page, propertyId)),
     [filter]
   );
   const _refreshFeed = useCallback(

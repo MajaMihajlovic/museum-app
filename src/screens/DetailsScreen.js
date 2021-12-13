@@ -16,6 +16,7 @@ import FavoriteFab from "../components/FavoriteFab";
 import Divider from "../components/Divider";
 import Swiper from "react-native-swiper";
 import { Video } from "expo-av";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DetailsScreen = () => {
   const id = useNavigationParam("id");
@@ -138,6 +139,19 @@ const DetailsScreen = () => {
                 ? state.record.properties.map((prop, i) => (
                     <View key={i}>
                       <Title>{prop.title}</Title>
+                      {prop.title == "Naziv zbirke" ? (
+                         <TouchableOpacity
+                         testID="feed-item"
+                         onPress={() =>
+                           push("Main", {
+                            filter: prop.value,
+                            propertyId: prop.id
+                           })
+                         }
+                       >
+                        <Text>Prikaži sve slične</Text>
+                        </TouchableOpacity>
+                      ) : null}
                       <Paragraph>{prop.value || <Text>-</Text>}</Paragraph>
                       <Divider />
                     </View>
