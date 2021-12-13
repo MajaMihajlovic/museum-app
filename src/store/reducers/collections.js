@@ -15,7 +15,6 @@ import {
 export const initialState = {
   loading: false,
   refreshing: false,
-  desc: false,
   records: [],
   error: null,
   totalRecords: undefined,
@@ -34,7 +33,7 @@ const collectionsReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case FETCH_TARGET__FULFILLED:
-      const { info, records, target, desc } = action.payload;
+      const { info, records, target } = action.payload;
       return {
         ...state,
         records: [...state.records, ...records],
@@ -42,8 +41,7 @@ const collectionsReducer = (state = initialState, action) => {
         totalRecords: info?.totalrecords,
         loading: false,
         error: null,
-        target,
-        desc,
+        target
       };
 
     case FETCH_TARGET__REJECTED:

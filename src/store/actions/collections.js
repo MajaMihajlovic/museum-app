@@ -27,7 +27,7 @@ export const loadListOf =
       const results = await loadCollectionItems(target);
       dispatch({
         type: search ? FILTER_RECORDS__FULFILLED : FETCH_TARGET__FULFILLED,
-        payload: { ...results, target, desc },
+        payload: { ...results, target },
       });
     } catch (err) {
       dispatch({

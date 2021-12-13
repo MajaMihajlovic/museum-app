@@ -111,10 +111,10 @@ const DetailsScreen = () => {
                     <FavoriteFab
                       record={{
                         id,
-                        title,
-                        collectionName,
+                        name:title,
                         media,
                         description,
+                        collectionName,
                       }}
                       style={styles.fab}
                     />
