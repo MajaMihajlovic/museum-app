@@ -14,7 +14,7 @@ const listImage = Math.round(width);
 const gridImage = Math.round(width / GRID_COLUMNS - 4);
 
 export const FeedItem = memo(
-  ({ id, name, media, description, century, dated, collectionName }) => {
+  ({ id, name, url, description, century, dated, collectionName }) => {
     const { push } = useNavigation();
 
     return (
@@ -24,7 +24,7 @@ export const FeedItem = memo(
           push("Details", {
             id,
             name,
-            media,
+            url,
             description,
             century,
             dated,
@@ -39,10 +39,10 @@ export const FeedItem = memo(
             subtitle={description}
             style={styles.text}
           />
-          {media?.length > 0 && media[0].thumbnailUrl ? (
+          { url !=null && url.startsWith("http")? (
             <Card.Cover
               source={{
-                uri: `${media[0].thumbnailUrl}?height=${listImage}&width=${listImage}`,
+                uri: `${url}?height=${listImage}&width=${listImage}`,
               }}
               resizeMode="contain"
               style={styles.image}
@@ -62,7 +62,7 @@ export const FeedItem = memo(
             record={{
               id,
               name,
-              media,
+              url,
               description,
               century,
               dated,
@@ -86,7 +86,7 @@ FeedItem.propTypes = {
 };
 
 export const FeedItemGrid = memo(
-  ({ id, name, media, description, century, dated, collectionName }) => {
+  ({ id, name, url, description, century, dated, collectionName }) => {
     const { push } = useNavigation();
     return (
       <Card key={id} style={styles.grid} elevation={0}>
@@ -96,7 +96,7 @@ export const FeedItemGrid = memo(
             push("Details", {
               id,
               name,
-              media,
+              url,
               description,
               century,
               dated,
@@ -111,10 +111,11 @@ export const FeedItemGrid = memo(
               marginLeft: -15,
             }}
           />
-          {media?.length > 0 && media[0].thumbnailUrl ? (
+                   { url !=null && url.startsWith("http")? (
+
             <Card.Cover
               source={{
-                uri: `${media[0]?.thumbnailUrl}?height=${listImage}&width=${gridImage}`,
+                uri: `${url}?height=${listImage}&width=${gridImage}`,
               }}
               resizeMode="contain"
               style={styles.imageGrid}

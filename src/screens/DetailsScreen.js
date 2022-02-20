@@ -22,7 +22,6 @@ const DetailsScreen = () => {
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
   const collectionName = useNavigationParam("collectionName");
-  const media = useNavigationParam("media");
 
   const [expand, setExpand] = useState(false);
   const width = Dimensions.get("window").width;
@@ -49,9 +48,9 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            {media.length > 0 ? (
+            {state.record.media.length > 0 ? (
               <Swiper height="100%">
-                {media.map((e, i) => (
+                {state.record.media.map((e, i) => (
                   <View key={i.toString()} style={{ height: 255 }}>
                     {e.type?.includes("image") ||
                     e.type?.includes("application") ? (
@@ -112,7 +111,7 @@ const DetailsScreen = () => {
                       record={{
                         id,
                         name:title,
-                        media,
+                        media:state.record.media,
                         description,
                         collectionName,
                       }}

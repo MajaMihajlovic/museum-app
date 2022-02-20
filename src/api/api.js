@@ -25,7 +25,8 @@ export const processFeed = async (results, page) => {
           name,
           description,
           collectionName,
-          media: r["o:media"][0] ? await fetchMedia(r["o:media"]) : [],
+          url: r["thumbnail_display_urls"]? r["thumbnail_display_urls"].medium: null,
+         // media: r["o:media"][0] ? await fetchMedia(r["o:media"]) : [],
         });
     }
   }
@@ -50,19 +51,21 @@ export const fetchFeed = async (url = null, page = 1, search) => {
 export const processRecordImages = (images) =>
   images.map((image) => image.baseimageurl);
 
-export const processRecord = (record) => {
-  const properties = parseOmekaApi(record);
-  const processed = {
+export const processRecord = async (record) => {
+  let  properties = parseOmekaApi(record);
+  let media =  record["o:media"][0] ? await fetchMedia(record["o:media"]) : [];
+  let processed = {
     ...record,
     images: record.images ? processRecordImages(record) : [],
-    properties,
+    properties, media
   };
   return processed;
 };
 
 export const fetchRecord = async (id) => {
   const results = await GET(`items/${id}`);
-  return processRecord(results);
+  console.log(results)
+  return await processRecord(results);
 };
 
 export const loadCollectionItems = async (id) => {
