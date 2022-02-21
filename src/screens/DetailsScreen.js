@@ -38,6 +38,11 @@ const DetailsScreen = () => {
   function openModal(value) {
     setIsModalOpened(true);
   }
+
+  useEffect(() => {
+    actions.loadRecord();
+  }, []);
+  
   return (
     <View style={styles.root} testID="details-screen">
       <Appbar.Header>
