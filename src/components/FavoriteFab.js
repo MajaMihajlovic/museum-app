@@ -16,7 +16,7 @@ export const FavoriteFab = ({
       testID="favorite-fab"
       icon="heart"
       onPress={() => toggleFavorite(record)}
-      color={favorites.find(f => f.id === record.id) ? "#ff87cd" : "black"}
+      color={favorites.find(f => f.id === record.id) ? "#d64541" : "black"}
       {...other}
     />
   );

@@ -30,7 +30,7 @@ const CollectionDetailsScreen = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => (
-      <ListItem key={item.id} {...item} target={state.name} />
+      <ListItem key={item.id} {...item} />
     ),
     [state.name]
   );

@@ -36,7 +36,6 @@ ListItem.propTypes = {
   id: PropTypes.number.isRequired,
   description: PropTypes.string,
   theme: PropTypes.string,
-  target: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({

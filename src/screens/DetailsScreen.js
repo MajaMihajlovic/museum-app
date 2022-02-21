@@ -6,6 +6,8 @@ import {
   Text,
   Dimensions,
   Image,
+  Modal,
+  BackHandler,
 } from "react-native";
 import { Appbar, FAB, Paragraph, Title } from "react-native-paper";
 import { useNavigation, useNavigationParam } from "react-navigation-hooks";
@@ -17,18 +19,26 @@ import Divider from "../components/Divider";
 import Swiper from "react-native-swiper";
 import { Video } from "expo-av";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import ImageViewer from "react-native-image-zoom-viewer";
 
 const DetailsScreen = () => {
   const id = useNavigationParam("id");
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
   const collectionName = useNavigationParam("collectionName");
-  const media = useNavigationParam("media");
-
-  const [expand, setExpand] = useState(false);
   const width = Dimensions.get("window").width;
-  const { goBack, push } = useNavigation();
+  //  const { goBack, push } = useNavigation();
   const { state, actions } = useDetailsReducer(id);
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const { push, goBack } = useNavigation();
+
+  function openModal(value) {
+    setIsModalOpened(true);
+  }
 
   useEffect(() => {
     actions.loadRecord();
@@ -50,114 +60,113 @@ const DetailsScreen = () => {
           <Text style={styles.body}>{state.error}</Text>
         ) : (
           <React.Fragment>
-            {media.length > 0 ? (
-              <Swiper height="100%">
-                {media.map((e, i) => (
-                  <View key={i.toString()} style={{ height: 255 }}>
-                    {e.type?.includes("image") ||
-                    e.type?.includes("application") ? (
-                      <>
-                        <Image
-                          key={e["record"]["o:id"]}
-                          source={{
-                            uri:
-                              e["record"] != null
-                                ? e["record"]["o:thumbnail_urls"]?.large
-                                : e.thumbnailUrl,
-                          }}
-                          style={{
-                            width: width,
-                            resizeMode: expand ? "cover" : "contain",
-                            flex: 1,
-                          }}
-                          defaultSource={require("./../../assets/defaultImg.png")}
-                        />
-                        <FAB
-                          testID="expand"
-                          icon={
-                            expand ? "arrow-expand-all" : "arrow-collapse-all"
-                          }
-                          onPress={() =>
-                            expand ? setExpand(false) : setExpand(true)
-                          }
-                          style={styles.expandIcon}
-                        />
-                      </>
-                    ) : e.type?.includes("audio") ||
-                      e.type?.includes("video") ? (
-                      <Video
-                        useNativeControls
+            <>
+              <Modal
+                visible={isModalOpened}
+                transparent={true}
+                onRequestClose={() => {
+                  setIsModalOpened(false);
+                }}
+              >
+                <ImageViewer
+                  enableImageZoom={true}
+                  enableSwipeDown={true}
+                  imageUrls={state.record.media?.imageUrls}
+                  onSwipeDown={() => {
+                    setIsModalOpened(false);
+                  }}
+                />
+              </Modal>
+              <TouchableHighlight onPress={() => openModal(true)}>
+                <Swiper height="100%">
+                  {state.record.media?.imageUrls?.map((e, i) => (
+                    <View key={i} style={{ height: 255 }}>
+                      <Image
+                        key={i}
                         source={{
-                          uri:
-                            e["record"] != null
-                              ? e["record"]["o:original_url"]
-                              : null,
+                          uri: e["url"],
                         }}
                         style={{
                           width: width,
+                          resizeMode: "contain",
                           flex: 1,
                         }}
-                        usePoster
-                        posterSource={require("./../../assets/nodeDefault.png")}
-                        resizeMode="contain"
-                        rate={1.0}
-                        volume={1.0}
-                        isMuted={false}
-                        resizeMode="cover"
-                        shouldPlay
-                        isLooping
+                        defaultSource={require("./../../assets/defaultImg.png")}
                       />
-                    ) : null}
-
-                    <FavoriteFab
-                      record={{
-                        id,
-                        title,
-                        collectionName,
-                        media,
-                        description,
-                      }}
-                      style={styles.fab}
-                    />
-                  </View>
-                ))}
-              </Swiper>
-            ) : null}
-            <View style={styles.body}>
-              <Title>ID</Title>
-              <Paragraph>{id}</Paragraph>
-              <Divider />
-
-              <Title>Naziv</Title>
-              <Paragraph>{title}</Paragraph>
-              <Divider />
-              <Title>Opis</Title>
-              <Paragraph>{description}</Paragraph>
-              <Divider />
-
-              {state.record.properties
-                ? state.record.properties.map((prop, i) => (
-                    <View key={i}>
-                      <Title>{prop.title}</Title>
-                      {prop.title == "Naziv zbirke" ? (
-                         <TouchableOpacity
-                         testID="feed-item"
-                         onPress={() =>
-                           push("Main", {
-                            filter: prop.value,
-                            propertyId: prop.id
-                           })
-                         }
-                       >
-                        <Text>Prikaži sve slične</Text>
-                        </TouchableOpacity>
-                      ) : null}
-                      <Paragraph>{prop.value || <Text>-</Text>}</Paragraph>
-                      <Divider />
+                      <FavoriteFab
+                        record={{
+                          id,
+                          name: title,
+                          media: state.record.media,
+                          description,
+                          collectionName,
+                        }}
+                        style={styles.fab}
+                      />
                     </View>
-                  ))
-                : null}
-            </View>
+                  ))}
+                </Swiper>
+              </TouchableHighlight>
+              {state.record.media.videoUrls?.map((e, i) => (
+                <View style={{ height: 255 }}>
+                  <Video
+                    useNativeControls
+                    source={{
+                      uri: e,
+                    }}
+                    style={{
+                      width: width,
+                      flex: 1,
+                    }}
+                    usePoster
+                    posterSource={require("./../../assets/nodeDefault.png")}
+                    resizeMode="contain"
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay
+                    isLooping
+                  />
+                </View>
+              ))}
+
+              <View style={styles.body}>
+                <Title>ID</Title>
+                <Paragraph>{id}</Paragraph>
+                <Divider />
+
+                <Title>Naziv</Title>
+                <Paragraph>{title}</Paragraph>
+                <Divider />
+                <Title>Opis</Title>
+                <Paragraph>{description}</Paragraph>
+                <Divider />
+
+                {state.record.properties
+                  ? state.record.properties.map((prop, i) => (
+                      <View key={i}>
+                        <Title>{prop.title}</Title>
+                        {prop.title == "Naziv zbirke" ? (
+                          <TouchableOpacity
+                            testID="feed-item"
+                            onPress={() =>
+                              push("Main", {
+                                filter: prop.value,
+                                propertyId: prop.id,
+                              })
+                            }
+                          >
+                            <Text>Prikaži sve slične</Text>
+                          </TouchableOpacity>
+                        ) : null}
+                        <Paragraph>{prop.value || <Text>-</Text>}</Paragraph>
+                        <Divider />
+                      </View>
+                    ))
+                  : null}
+              </View>
+            </>
           </React.Fragment>
         )}
       </ScrollView>
@@ -183,12 +192,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     right: 0,
-    bottom: 0,
-  },
-  expandIcon: {
-    position: "absolute",
-    margin: 16,
-    right: 70,
     bottom: 0,
   },
   link: {

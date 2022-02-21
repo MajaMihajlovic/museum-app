@@ -32,7 +32,7 @@ const collectionsReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case FETCH_TARGET__FULFILLED:
-      const { info, records, target, desc } = action.payload;
+      const { info, records, target } = action.payload;
       return {
         ...state,
         records: [...state.records, ...records],
