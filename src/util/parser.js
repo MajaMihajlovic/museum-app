@@ -7,8 +7,11 @@ const parseOmekaApi = (response) => {
     if (key.startsWith("rs:")) {
       let label = value[0]["property_label"];
       let title = translations[label];
-      console.log(value[0]);
-      properties.push({ title, value: value[0]["@value"], id: value[0]["property_id"] });
+      properties.push({
+        title,
+        value: value[0]["@value"],
+        id: value[0]["property_id"],
+      });
     }
   }
   return properties;

@@ -25,8 +25,8 @@ const CollectionsScreen = () => {
           ) : state.error ? (
             <Text style={styles.body}>{state.error}</Text>
           ) : (
-            state.collections?.map((col) => (
-              <Surface elevation={4} style={styles.surface} key={col.name}>
+            state.collections?.map((col, i) => (
+              <Surface elevation={4} style={styles.surface} key={i}>
                 <TouchableRipple
                   onPress={() => {
                     push("CollectionDetails", {

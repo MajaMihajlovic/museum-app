@@ -41,12 +41,16 @@ export const processFeed = async (results, page) => {
 };
 
 export const fetchFeed = async (url = null, page = 1, search, id = null) => {
-  console.log("fetchFreed:"+url+page+search+id)
+  //console.log("fetchFreed:"+url+page+search+id)
   let fullUrl = url ? url : `items?page=${page}&per_page=10`;
   if (search) {
     let query = encodeURIComponent(search);
-    fullUrl = id ?  `items?search=&[property]=${id}&[type]=eq&[text]=${query}` :`items?search=${query}`;
-  console.log(fullUrl)
+    // items?Search=&property[0][property]=484&property[0][type]=eq&property[0][text]=Zmijanje
+    fullUrl =
+      id != null
+        ? `items?Search=&property[0][property]=${id}&property[0][type]=eq&property[0][text]=${query}`
+        : `items?search=${query}`;
+    console.log(fullUrl);
   }
   const results = await GET(fullUrl);
   return await processFeed(results, page);
@@ -94,7 +98,6 @@ export const fetchCollections = async (url = null) => {
   };
 };
 
-
 // TODO: fetch single and all media
 const fetchMedia = async (media) => {
   let response = { imageUrls: [], videoUrls: [] };
@@ -106,7 +109,7 @@ const fetchMedia = async (media) => {
       (type?.includes("image") || type?.includes("application")) &&
       singleMedia["o:thumbnail_urls"]?.large
     )
-      response.imageUrls.push({url:singleMedia["o:thumbnail_urls"]?.large});
+      response.imageUrls.push({ url: singleMedia["o:thumbnail_urls"]?.large });
 
     if (
       (type?.includes("audio") || type?.includes("video")) &&

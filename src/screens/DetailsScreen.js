@@ -97,6 +97,7 @@ const DetailsScreen = () => {
                         record={{
                           id,
                           name: title,
+                          url: e["url"],
                           media: state.record.media,
                           description,
                           collectionName,
@@ -108,7 +109,7 @@ const DetailsScreen = () => {
                 </Swiper>
               </TouchableHighlight>
               {state.record.media.videoUrls?.map((e, i) => (
-                <View style={{ height: 255 }}>
+                <View key={i} style={{ height: 255 }}>
                   <Video
                     useNativeControls
                     source={{
@@ -146,8 +147,17 @@ const DetailsScreen = () => {
                 {state.record.properties
                   ? state.record.properties.map((prop, i) => (
                       <View key={i}>
-                        <Title>{prop.title}</Title>
-                        {prop.title == "Naziv zbirke" ? (
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            alignItems: "flex-start",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Title>{prop.title}</Title>
+                          {/* {prop.title == "Naziv zbirke" ? ( */}
                           <TouchableOpacity
                             testID="feed-item"
                             onPress={() =>
@@ -157,9 +167,12 @@ const DetailsScreen = () => {
                               })
                             }
                           >
-                            <Text>Prikaži sve slične</Text>
+                            <Text style={{ fontSize: 10 }}>
+                              Prikaži sve slične
+                            </Text>
                           </TouchableOpacity>
-                        ) : null}
+                          {/* ) : null} */}
+                        </View>
                         <Paragraph>{prop.value || <Text>-</Text>}</Paragraph>
                         <Divider />
                       </View>
