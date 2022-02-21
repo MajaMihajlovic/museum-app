@@ -22,8 +22,6 @@ const DetailsScreen = () => {
   const title = useNavigationParam("name");
   const description = useNavigationParam("description");
   const collectionName = useNavigationParam("collectionName");
-
-  const [expand, setExpand] = useState(false);
   const width = Dimensions.get("window").width;
   const { goBack, push } = useNavigation();
   const { state, actions } = useDetailsReducer(id);
@@ -54,7 +52,7 @@ const DetailsScreen = () => {
                   <View key={i.toString()} style={{ height: 255 }}>
                     {e.type?.includes("image") ||
                     e.type?.includes("application") ? (
-                      <>
+                     
                         <Image
                           key={e["record"]["o:id"]}
                           source={{
@@ -65,22 +63,12 @@ const DetailsScreen = () => {
                           }}
                           style={{
                             width: width,
-                            resizeMode: expand ? "cover" : "contain",
+                            resizeMode: "contain",
                             flex: 1,
                           }}
                           defaultSource={require("./../../assets/defaultImg.png")}
                         />
-                        <FAB
-                          testID="expand"
-                          icon={
-                            expand ? "arrow-expand-all" : "arrow-collapse-all"
-                          }
-                          onPress={() =>
-                            expand ? setExpand(false) : setExpand(true)
-                          }
-                          style={styles.expandIcon}
-                        />
-                      </>
+                    
                     ) : e.type?.includes("audio") ||
                       e.type?.includes("video") ? (
                       <Video
@@ -168,12 +156,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     right: 0,
-    bottom: 0,
-  },
-  expandIcon: {
-    position: "absolute",
-    margin: 16,
-    right: 70,
     bottom: 0,
   },
   link: {
