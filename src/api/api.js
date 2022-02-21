@@ -25,8 +25,10 @@ export const processFeed = async (results, page) => {
           name,
           description,
           collectionName,
-          url: r["thumbnail_display_urls"]? r["thumbnail_display_urls"].medium: null,
-         // media: r["o:media"][0] ? await fetchMedia(r["o:media"]) : [],
+          url: r["thumbnail_display_urls"]
+            ? r["thumbnail_display_urls"].medium
+            : null,
+          // media: r["o:media"][0] ? await fetchMedia(r["o:media"]) : [],
         });
     }
   }
@@ -52,19 +54,20 @@ export const processRecordImages = (images) =>
   images.map((image) => image.baseimageurl);
 
 export const processRecord = async (record) => {
-  let  properties = parseOmekaApi(record);
-  let media =  record["o:media"][0] ? await fetchMedia(record["o:media"]) : [];
+  let properties = parseOmekaApi(record);
+  let media = record["o:media"][0] ? await fetchMedia(record["o:media"]) : [];
+
   let processed = {
     ...record,
     images: record.images ? processRecordImages(record) : [],
-    properties, media
+    properties,
+    media,
   };
   return processed;
 };
 
 export const fetchRecord = async (id) => {
   const results = await GET(`items/${id}`);
-  console.log(results)
   return await processRecord(results);
 };
 
@@ -91,15 +94,22 @@ export const fetchCollections = async (url = null) => {
 };
 
 const fetchMedia = async (media) => {
-  let response = [];
+  let response = { imageUrls: [], videoUrls: [] };
   for (let e of media) {
     let singleMedia = await GET(e["@id"]);
-    //if (singleMedia["o:media_type"] == null) console.log(singleMedia);
-    response.push({
-      record: singleMedia,
-      thumbnailUrl: singleMedia["o:thumbnail_urls"]?.medium,
-      type: singleMedia["o:media_type"],
-    });
+    let type = singleMedia["o:media_type"];
+
+    if (
+      (type?.includes("image") || type?.includes("application")) &&
+      singleMedia["o:thumbnail_urls"]?.large
+    )
+      response.imageUrls.push({url:singleMedia["o:thumbnail_urls"]?.large});
+
+    if (
+      (type?.includes("audio") || type?.includes("video")) &&
+      singleMedia["o:original_url"]
+    )
+      response.videoUrls.push(singleMedia["o:original_url"]);
   }
   return response;
 };
