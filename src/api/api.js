@@ -50,7 +50,6 @@ export const fetchFeed = async (url = null, page = 1, search, id = null) => {
       id != null
         ? `items?Search=&property[0][property]=${id}&property[0][type]=eq&property[0][text]=${query}`
         : `items?search=${query}`;
-    console.log(fullUrl);
   }
   const results = await GET(fullUrl);
   return await processFeed(results, page);
@@ -68,7 +67,6 @@ export const processRecord = async (record) => {
     properties,
     media,
   };
-  console.log(processed);
   return processed;
 };
 
