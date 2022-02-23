@@ -61,13 +61,14 @@ export const processRecordImages = (images) =>
 
 export const processRecord = async (record) => {
   let properties = parseOmekaApi(record);
-  let media = record["o:media"][0] ? await fetchMedia(record["o:media"]) : [];
+  let media = record["o:media"][0] ? await fetchMedia(record["o:media"]) : null;
 
   let processed = {
     ...record,
     properties,
     media,
   };
+  console.log(processed);
   return processed;
 };
 

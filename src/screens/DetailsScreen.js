@@ -62,7 +62,9 @@ const DetailsScreen = () => {
           <React.Fragment>
             <>
               <Modal
-                visible={isModalOpened}
+                visible={
+                  isModalOpened && state.record.media?.imageUrls?.length > 0
+                }
                 transparent={true}
                 onRequestClose={() => {
                   setIsModalOpened(false);
@@ -77,38 +79,40 @@ const DetailsScreen = () => {
                   }}
                 />
               </Modal>
-              <TouchableHighlight onPress={() => openModal(true)}>
-                <Swiper height="100%">
-                  {state.record.media?.imageUrls?.map((e, i) => (
-                    <View key={i} style={{ height: 255 }}>
-                      <Image
-                        key={i}
-                        source={{
-                          uri: e["url"],
-                        }}
-                        style={{
-                          width: width,
-                          resizeMode: "contain",
-                          flex: 1,
-                        }}
-                        defaultSource={require("./../../assets/defaultImg.png")}
-                      />
-                      <FavoriteFab
-                        record={{
-                          id,
-                          name: title,
-                          url: e["url"],
-                          media: state.record.media,
-                          description,
-                          collectionName,
-                        }}
-                        style={styles.fab}
-                      />
-                    </View>
-                  ))}
-                </Swiper>
-              </TouchableHighlight>
-              {state.record.media.videoUrls?.map((e, i) => (
+              {state.record.media?.imageUrls?.length > 0 ? (
+                <TouchableHighlight onPress={() => openModal(true)}>
+                  <Swiper height="100%">
+                    {state.record.media?.imageUrls?.map((e, i) => (
+                      <View key={i} style={{ height: 255 }}>
+                        <Image
+                          key={i}
+                          source={{
+                            uri: e["url"],
+                          }}
+                          style={{
+                            width: width,
+                            resizeMode: "contain",
+                            flex: 1,
+                          }}
+                          defaultSource={require("./../../assets/defaultImg.png")}
+                        />
+                        <FavoriteFab
+                          record={{
+                            id,
+                            name: title,
+                            url: e["url"],
+                            media: state.record.media,
+                            description,
+                            collectionName,
+                          }}
+                          style={styles.fab}
+                        />
+                      </View>
+                    ))}
+                  </Swiper>
+                </TouchableHighlight>
+              ) : null}
+              {state.record.media?.videoUrls?.map((e, i) => (
                 <View key={i} style={{ height: 255 }}>
                   <Video
                     useNativeControls
@@ -144,7 +148,7 @@ const DetailsScreen = () => {
                 <Paragraph>{description}</Paragraph>
                 <Divider />
 
-                {state.record.properties
+                {state.record.properties != null
                   ? state.record.properties.map((prop, i) => (
                       <View key={i}>
                         <View
@@ -157,7 +161,6 @@ const DetailsScreen = () => {
                           }}
                         >
                           <Title>{prop.title}</Title>
-                          {/* {prop.title == "Naziv zbirke" ? ( */}
                           <TouchableOpacity
                             testID="feed-item"
                             onPress={() =>
